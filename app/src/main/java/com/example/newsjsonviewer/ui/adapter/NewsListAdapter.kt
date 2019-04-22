@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.newsjsonviewer.R
-import com.example.newsjsonviewer.ui.domain.model.News
+import com.example.newsjsonviewer.domain.model.News
+import com.example.newsjsonviewer.ui.image.loadImage
 import kotlin.properties.Delegates
 
 class NewsListAdapter : RecyclerView.Adapter<ViewHolder>() {
@@ -28,8 +29,7 @@ class NewsListAdapter : RecyclerView.Adapter<ViewHolder>() {
         val item = items[position]
         vh.title.text = item.title
         vh.content.text = item.content
-        // FIXME layout image by it's URL, placeholder by now
-        vh.image.setImageResource(R.drawable.ic_launcher_foreground)
+        loadImage(vh.image)
     }
 }
 

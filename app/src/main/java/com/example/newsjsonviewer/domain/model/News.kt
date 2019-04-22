@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.ui.domain.model
+package com.example.newsjsonviewer.domain.model
 
 data class News (
     val title: String,

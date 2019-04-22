@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.ui.adapter.NewsListAdapter
-import com.example.newsjsonviewer.ui.domain.model.News
+import com.example.newsjsonviewer.domain.model.News
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
