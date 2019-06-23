@@ -1,8 +1,8 @@
 package com.example.newsjsonviewer.ui
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.widget.Toast
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.data.repository.NewsRepository
