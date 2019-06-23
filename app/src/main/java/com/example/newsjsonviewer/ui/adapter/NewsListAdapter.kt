@@ -28,8 +28,11 @@ class NewsListAdapter : RecyclerView.Adapter<ViewHolder>() {
     override fun onBindViewHolder(vh: ViewHolder, position: Int) {
         val item = items[position]
         vh.title.text = item.title
-        vh.content.text = item.content
-        loadImage(vh.image)
+        vh.content.text = item.content ?: ""
+        if(item.imageUrl != null)
+            loadImage(vh.image, item.imageUrl)
+        //TODO else load placeholder
+
     }
 }
 
