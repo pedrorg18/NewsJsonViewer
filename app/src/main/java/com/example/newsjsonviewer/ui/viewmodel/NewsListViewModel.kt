@@ -16,10 +16,15 @@ class NewsListViewModel : ViewModel() {
 
     private val repository = NewsRepository(NewsProviderImpl())
 
+    /**
+     * Loads general news from the US. It filters news which don't have description or image
+     */
     fun loadNews() {
         repository.getLatestNews(COUNTRY_CODE_US, object: SingleObserver<List<News>> {
             override fun onSuccess(news: List<News>) {
-                newsListLiveData.value = news
+                newsListLiveData.value = news.filter {
+                    it.content != null && it.imageUrl != null
+                }
             }
 
             override fun onError(e: Throwable) {
