@@ -1,23 +1,21 @@
 package com.example.newsjsonviewer.ui
 
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsjsonviewer.R
-import com.example.newsjsonviewer.data.repository.NewsRepository
 import com.example.newsjsonviewer.ui.adapter.NewsListAdapter
-import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.framework.network.COUNTRY_CODE_US
-import com.example.newsjsonviewer.framework.network.NewsProviderImpl
-import io.reactivex.SingleObserver
-import io.reactivex.disposables.Disposable
+import com.example.newsjsonviewer.ui.viewmodel.NewsListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private val adapter by lazy { NewsListAdapter() }
-    private val repository by lazy { NewsRepository(NewsProviderImpl()) }
+
+    private val viewModel by lazy { ViewModelProviders.of(this).get(NewsListViewModel::class.java)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,21 +32,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun layoutData() {
-        repository.getLatestNews(COUNTRY_CODE_US, object: SingleObserver<List<News>> {
-            override fun onSuccess(news: List<News>) {
-                adapter.items = news
-            }
+        viewModel.loadNews()
 
-            override fun onError(e: Throwable) {
-                Toast.makeText(this@MainActivity, "There was an error: ${e.message}", Toast.LENGTH_LONG).show()
-            }
-
-            override fun onSubscribe(d: Disposable) {}
+        viewModel.newsListLiveData.observe(this, Observer { newsList ->
+            adapter.items = newsList!!
         })
+
+        viewModel.newsListErrorLiveData.observe(this, Observer { error ->
+            Toast.makeText(this@MainActivity, "There was an error: $error", Toast.LENGTH_LONG).show()
+        })
+
     }
 
-    override fun onDestroy() {
-        repository.clean()
-        super.onDestroy()
-    }
 }
