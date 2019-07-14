@@ -29,10 +29,7 @@ class NewsListAdapter : RecyclerView.Adapter<ViewHolder>() {
         val item = items[position]
         vh.title.text = item.title
         vh.description.text = item.description ?: ""
-        if(item.imageUrl != null)
-            loadImage(vh.image, item.imageUrl)
-        //TODO else load placeholder
-
+        loadImage(vh.image, item.imageUrl!!)
     }
 }
 

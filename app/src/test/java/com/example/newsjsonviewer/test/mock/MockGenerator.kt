@@ -1,5 +1,7 @@
 package com.example.newsjsonviewer.test.mock
 
+import com.example.newsjsonviewer.domain.model.News
+import com.example.newsjsonviewer.framework.network.mapper.NewsMapper
 import com.example.newsjsonviewer.framework.network.model.NewsListEntity
 import java.io.File
 import java.lang.RuntimeException
@@ -13,11 +15,20 @@ import java.nio.charset.Charset
 class MockGenerator {
 
     companion object {
+
+        /**
+         * Mock network news list model from US
+         */
         fun generateMockNewsListUS(): NewsListEntity {
-//            val gson = Gson()
-//            val jsonString = getJsonContentFromFileName("mock_us_news_list.json")
-//            return gson.fromJson(jsonString, NewsListEntity::class.java)
             return getJsonEntityFromFileName("mock_us_news_list.json")
+        }
+
+        /**
+         * First domain mapped element from mock US list
+         */
+        fun generateFirstMockDomainNewsFromUSList(): News {
+            val networkNewsList = generateMockNewsListUS()
+            return NewsMapper().map(networkNewsList.articles.first())
         }
 
         private inline fun <reified T> getJsonEntityFromFileName(fileName: String): T {
