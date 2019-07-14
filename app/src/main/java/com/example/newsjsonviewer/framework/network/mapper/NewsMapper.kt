@@ -5,11 +5,18 @@ import com.example.newsjsonviewer.framework.network.model.NewsEntity
 
 class NewsMapper {
 
+    /**
+     * Maps Json model to domain model.
+     */
     fun map(netEntity: NewsEntity) =
         with(netEntity) {
             News(title,
                 description,
-                urlToImage)
+                urlToImage,
+                author,
+                source?.name,
+                publishedAt,
+                content)
         }
 
 }

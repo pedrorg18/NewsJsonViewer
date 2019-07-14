@@ -28,13 +28,24 @@ class NewsProviderImpl : NewsProvider {
 
     private fun onNewsSuccess(observer: SingleObserver<List<News>>) = { newsListEntity: NewsListEntity ->
         if(newsListEntity.status == NEWSAPI_STATUS_OK) {
-            observer.onSuccess(newsListEntity.articles.map {
-                NewsMapper().map(it)
-            })
+            observer.onSuccess(mapNetworkToDomainModel(newsListEntity))
+
         } else {
             observer.onError(IllegalStateException("Received error code from server: ${newsListEntity.status}"))
         }
     }
+
+    // It filters news which don't have certain fields
+    private fun mapNetworkToDomainModel(newsListEntity: NewsListEntity) =
+        newsListEntity.articles.map {
+            NewsMapper().map(it)
+        }.filter {
+            with(it) {
+                description != null && imageUrl != null && author != null && source != null && publishedAt != null
+                        && content != null
+            }
+        }
+
 
     private fun onNewsError(observer: SingleObserver<List<News>>) = { error: Throwable ->
         observer.onError(error)
