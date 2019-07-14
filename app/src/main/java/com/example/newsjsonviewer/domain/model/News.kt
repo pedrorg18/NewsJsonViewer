@@ -1,5 +1,6 @@
 package com.example.newsjsonviewer.domain.model
 
+import java.io.Serializable
 import java.util.*
 
 data class News (
@@ -10,4 +11,4 @@ data class News (
     val source: String?,
     val publishedAt: Date?,
     val content: String?
-    )
+    ): Serializable

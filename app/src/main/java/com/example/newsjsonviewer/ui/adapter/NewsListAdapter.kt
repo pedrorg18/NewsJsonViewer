@@ -1,11 +1,14 @@
 package com.example.newsjsonviewer.ui.adapter
 
+import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.newsjsonviewer.NEWS_TO_SHOW_DETAIL_EXTRA
+import com.example.newsjsonviewer.NewsDetailActivity
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.ui.image.loadImage
@@ -30,10 +33,18 @@ class NewsListAdapter : RecyclerView.Adapter<ViewHolder>() {
         vh.title.text = item.title
         vh.description.text = item.description ?: ""
         loadImage(vh.image, item.imageUrl!!)
+
+        vh.rootView.setOnClickListener {
+            val ctx = vh.rootView.context
+            val intent = Intent(ctx, NewsDetailActivity::class.java)
+            intent.putExtra(NEWS_TO_SHOW_DETAIL_EXTRA, item)
+            ctx.startActivity(intent)
+        }
     }
 }
 
 class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    val rootView = view
     val title: TextView = view.findViewById(R.id.tvListItemTitle)
     val description: TextView = view.findViewById(R.id.tvListItemContent)
     val image: ImageView = view.findViewById(R.id.ivListItem)
