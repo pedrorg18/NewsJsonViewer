@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.ui.adapter.NewsListAdapter
 import com.example.newsjsonviewer.ui.viewmodel.NewsListViewModel
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_news_list.*
 
-class MainActivity : AppCompatActivity() {
+class NewsListActivity : AppCompatActivity() {
 
     private val adapter by lazy { NewsListAdapter() }
 
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_news_list)
 
         initRecyclerView()
 
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         viewModel.newsListErrorLiveData.observe(this, Observer { error ->
-            Toast.makeText(this@MainActivity, "There was an error: $error", Toast.LENGTH_LONG).show()
+            Toast.makeText(this@NewsListActivity, "There was an error: $error", Toast.LENGTH_LONG).show()
         })
 
     }
