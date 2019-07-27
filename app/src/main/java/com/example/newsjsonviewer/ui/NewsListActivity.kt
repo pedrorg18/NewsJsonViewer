@@ -23,7 +23,9 @@ class NewsListActivity : AppCompatActivity() {
 
         initRecyclerView()
 
-        layoutData()
+        observeData()
+
+        viewModel.loadNews()
     }
 
     private fun initRecyclerView() {
@@ -31,9 +33,7 @@ class NewsListActivity : AppCompatActivity() {
         rvNewsList.adapter = adapter
     }
 
-    private fun layoutData() {
-        viewModel.loadNews()
-
+    private fun observeData() {
         viewModel.newsListLiveData.observe(this, Observer { newsList ->
             adapter.items = newsList!!
         })
@@ -41,7 +41,6 @@ class NewsListActivity : AppCompatActivity() {
         viewModel.newsListErrorLiveData.observe(this, Observer { error ->
             Toast.makeText(this@NewsListActivity, "There was an error: $error", Toast.LENGTH_LONG).show()
         })
-
     }
 
 }
