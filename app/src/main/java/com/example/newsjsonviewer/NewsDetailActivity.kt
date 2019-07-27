@@ -1,7 +1,6 @@
 package com.example.newsjsonviewer
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -30,7 +29,7 @@ class NewsDetailActivity : AppCompatActivity() {
         })
 
         // Get news object form list screen, adapt it to detail
-        viewModel.mapNews(intent.getSerializableExtra(NEWS_TO_SHOW_DETAIL_EXTRA) as News)
+        viewModel.mapNewsToViewFormat(intent.getSerializableExtra(NEWS_TO_SHOW_DETAIL_EXTRA) as News)
     }
 
     private fun layoutNews(news: DetailActivityModel) {

@@ -13,7 +13,10 @@ class NewsDetailViewModel : ViewModel() {
 
     private val repository = NewsRepository(NewsProviderImpl())
 
-    fun mapNews(news: News) {
+    /**
+     * Receives one news object in Domain data format, converts it to View format
+     */
+    fun mapNewsToViewFormat(news: News) {
         newsDetailLiveData.value = repository.mapDomainNewsToDetailModel(news)
     }
 
