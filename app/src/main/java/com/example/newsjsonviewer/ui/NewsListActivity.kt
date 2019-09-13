@@ -1,15 +1,18 @@
 package com.example.newsjsonviewer.ui
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.ui.adapter.NewsListAdapter
+import com.example.newsjsonviewer.ui.extensions.hide
+import com.example.newsjsonviewer.ui.extensions.show
 import com.example.newsjsonviewer.ui.viewmodel.NewsListViewModel
 import kotlinx.android.synthetic.main.activity_news_list.*
+
 
 class NewsListActivity : AppCompatActivity() {
 
@@ -26,6 +29,7 @@ class NewsListActivity : AppCompatActivity() {
         observeData()
 
         viewModel.loadNews()
+        startShimmer()
     }
 
     private fun initRecyclerView() {
@@ -35,12 +39,24 @@ class NewsListActivity : AppCompatActivity() {
 
     private fun observeData() {
         viewModel.newsListLiveData.observe(this, Observer { newsList ->
+            stopShimmer()
             adapter.items = newsList!!
         })
 
         viewModel.newsListErrorLiveData.observe(this, Observer { error ->
+            stopShimmer()
             Toast.makeText(this@NewsListActivity, "There was an error: $error", Toast.LENGTH_LONG).show()
         })
+    }
+
+    private fun startShimmer() {
+        shimmerViewContainer.show()
+        shimmerViewContainer.startShimmer()
+    }
+
+    private fun stopShimmer() {
+        shimmerViewContainer.stopShimmer()
+        shimmerViewContainer.hide()
     }
 
 }
