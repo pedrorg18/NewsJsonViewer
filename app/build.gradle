@@ -54,6 +54,8 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0"
 
+    implementation 'com.facebook.shimmer:shimmer:0.4.0'
+
     // testing
     testImplementation 'junit:junit:4.12'
     // Test helpers for LiveData
