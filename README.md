@@ -10,6 +10,7 @@ Its main goals are to show an architecture as well as show some technologies in 
 - Android Jetpack:
   - ViewModel
   - Livedata
+- Facebook Shimmer (to add shimmer effect to a placeholder view)
  
 ## Architecture - Design patterns - Methodologies
 - MVVM
