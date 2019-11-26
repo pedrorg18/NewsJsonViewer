@@ -13,6 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <uses-library android:name="android.test.runner"
+            android:required="false" />
         <activity android:name=".NewsDetailActivity" />
         <activity android:name=".ui.NewsListActivity">
             <intent-filter>
