@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.newsjsonviewer.NEWS_TO_SHOW_DETAIL_EXTRA
-import com.example.newsjsonviewer.NewsDetailActivity
+import com.example.newsjsonviewer.ui.NEWS_TO_SHOW_DETAIL_EXTRA
+import com.example.newsjsonviewer.ui.NewsDetailActivity
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.ui.image.loadImage

@@ -1,9 +1,10 @@
-package com.example.newsjsonviewer
+package com.example.newsjsonviewer.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.ui.image.loadImage
 import com.example.newsjsonviewer.ui.model.DetailActivityModel
