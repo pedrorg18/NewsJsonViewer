@@ -8,13 +8,14 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class NewsProviderImpl : NewsProvider {
+class NewsProviderImpl @Inject constructor(private val networkManager: NetworkManager) : NewsProvider {
 
     private val compositeDisposable = CompositeDisposable()
 
     override fun getLatestNews(country: String, observer: SingleObserver<List<News>>) {
-        val apiService = NetworkManager().getClient()
+        val apiService = networkManager.getClient()
             .create(NewsRemoteService::class.java)
 
         val observable = apiService.getLatestNews(NEWSAPI_API_KEY, country)
