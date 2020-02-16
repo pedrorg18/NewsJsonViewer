@@ -20,6 +20,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:transitionName="go_to_detail_transition"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView

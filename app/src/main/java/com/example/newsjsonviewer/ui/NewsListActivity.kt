@@ -1,5 +1,6 @@
 package com.example.newsjsonviewer.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
@@ -39,6 +40,8 @@ class NewsListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_list)
 
+        title = "Us news"
+
         initRecyclerView()
 
         observeData()
@@ -60,7 +63,8 @@ class NewsListActivity : AppCompatActivity() {
 
         viewModel.newsListErrorLiveData.observe(this, Observer { error ->
             stopShimmer()
-            Toast.makeText(this@NewsListActivity, "There was an error: $error", Toast.LENGTH_LONG).show()
+            Toast.makeText(this@NewsListActivity, "There was an error: $error", Toast.LENGTH_LONG)
+                .show()
         })
     }
 
@@ -87,7 +91,8 @@ class NewsListActivity : AppCompatActivity() {
 
 }
 
-class NewsListViewModelFactory(private val repo: NewsRepository) : ViewModelProvider.NewInstanceFactory() {
+class NewsListViewModelFactory(private val repo: NewsRepository) :
+    ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>) = NewsListViewModel(repo) as T

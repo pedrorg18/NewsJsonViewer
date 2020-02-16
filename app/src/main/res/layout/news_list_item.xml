@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:srcCompat="@tools:sample/backgrounds/scenic"
+        android:transitionName="go_to_detail_transition"
         android:contentDescription="@string/news_list_item_title" />
 
     <TextView

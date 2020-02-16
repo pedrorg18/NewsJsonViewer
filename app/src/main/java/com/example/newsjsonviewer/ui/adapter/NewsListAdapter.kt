@@ -1,5 +1,6 @@
 package com.example.newsjsonviewer.ui.adapter
 
+import android.app.Activity
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import com.example.newsjsonviewer.ui.NEWS_TO_SHOW_DETAIL_EXTRA
 import com.example.newsjsonviewer.ui.NewsDetailActivity
 import com.example.newsjsonviewer.R
@@ -38,7 +41,9 @@ class NewsListAdapter : RecyclerView.Adapter<ViewHolder>() {
             val ctx = vh.rootView.context
             val intent = Intent(ctx, NewsDetailActivity::class.java)
             intent.putExtra(NEWS_TO_SHOW_DETAIL_EXTRA, item)
-            ctx.startActivity(intent)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(ctx as Activity, vh.image,
+                ViewCompat.getTransitionName(vh.image)!!)
+            ctx.startActivity(intent, options.toBundle())
         }
     }
 }
