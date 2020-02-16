@@ -71,11 +71,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDetailAuthorAndDate"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Could it possibly be any bigger? \r\nSure, if Rafael Nadal was on the marquee for the match, it might have the same sizzle, but the tennis world will be treated to No. 1 seed Novak Djokovic (third all-time in Grand Slam wins with 15) taking on No. 2 seed Roger … [+971 chars]" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
