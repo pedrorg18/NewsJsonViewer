@@ -14,6 +14,7 @@ import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.data.repository.NewsRepository
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.framework.app.NewsApplication
+import com.example.newsjsonviewer.ui.extensions.hide
 import com.example.newsjsonviewer.ui.image.loadImage
 import com.example.newsjsonviewer.ui.model.DetailActivityModel
 import com.example.newsjsonviewer.ui.viewmodel.NewsDetailViewModel
@@ -34,11 +35,11 @@ class NewsDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_detail)
 
-        title = ""
-
         initAndObserveViewModel()
 
         supportPostponeEnterTransition()
+
+        initListeners()
     }
 
     private fun initAndObserveViewModel() {
@@ -82,6 +83,13 @@ class NewsDetailActivity : AppCompatActivity() {
             tvDetailSubtitle.text = subTitle
             tvDetailAuthorAndDate.text = authorAndDate
             tvDetailcontent.text = content
+        }
+    }
+
+    private fun initListeners() {
+        imageDetailGoBack.setOnClickListener {
+            it.hide()
+            onBackPressed()
         }
     }
 

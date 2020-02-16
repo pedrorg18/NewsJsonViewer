@@ -17,7 +17,8 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <uses-library android:name="android.test.runner"
             android:required="false" />
-        <activity android:name=".ui.NewsDetailActivity" />
+        <activity android:name=".ui.NewsDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ui.NewsListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

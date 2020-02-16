@@ -2,4 +2,5 @@
     <string name="app_name">NewsJsonViewer</string>
     <string name="news_list_item_title">News list item title</string>
     <string name="news_image">News Image</string>
+    <string name="cd_go_back">go back</string>
 </resources>
