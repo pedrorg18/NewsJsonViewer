@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.extensions
+package com.example.newsjsonviewer.utils.extensions
 
 import java.text.SimpleDateFormat
 import java.util.*

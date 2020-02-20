@@ -12,12 +12,9 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.platform.app.InstrumentationRegistry
 import com.example.newsjsonviewer.R
-import com.example.newsjsonviewer.server.MockServerDispatcher
 import com.example.newsjsonviewer.utils.recyclerViewAtPositionOnView
 import com.example.newsjsonviewer.utils.recyclerViewSizeMatcher
-import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.*
@@ -26,7 +23,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.net.InetAddress
 
 
 @LargeTest
@@ -34,14 +30,11 @@ import java.net.InetAddress
 class NewsListActivityTest {
 
     lateinit var scenario: ActivityScenario<NewsListActivity>
-    private lateinit var webServer: MockWebServer
 
 
     @Before
     @Throws(Exception::class)
     fun setup() {
-        launchMockWebServer()
-
         scenario = ActivityScenario.launch(NewsListActivity::class.java)
         scenario.onActivity {
             val idlingResource = it.getIdlingResource()!!
@@ -52,7 +45,6 @@ class NewsListActivityTest {
     @After
     @Throws(java.lang.Exception::class)
     fun tearDown() {
-        webServer.shutdown()
         scenario.close()
     }
 
@@ -111,15 +103,6 @@ class NewsListActivityTest {
             matches(recyclerViewAtPositionOnView(0, withText("The matchup in 2019 finals at the All England Club is all we could have hoped for"), R.id.tvListItemContent))
         )
 
-    }
-
-
-    private fun launchMockWebServer() {
-        webServer = MockWebServer()
-        webServer.start(InetAddress.getByName("localhost"), 8080)
-
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        webServer.dispatcher = MockServerDispatcher(appContext).RequestDispatcher()
     }
 
     private fun childAtPosition(parentMatcher: Matcher<View>, position: Int): Matcher<View> {

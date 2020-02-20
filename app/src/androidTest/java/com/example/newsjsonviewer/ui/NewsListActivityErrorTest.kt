@@ -9,17 +9,13 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.platform.app.InstrumentationRegistry
 import com.example.newsjsonviewer.R
-import com.example.newsjsonviewer.server.MockServerDispatcher
 import com.example.newsjsonviewer.utils.recyclerViewSizeMatcher
-import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.net.InetAddress
 
 
 @LargeTest
@@ -27,13 +23,13 @@ import java.net.InetAddress
 class NewsListActivityErrorTest {
 
     lateinit var scenario: ActivityScenario<NewsListActivity>
-    private lateinit var webServer: MockWebServer
+//    private lateinit var webServer: MockWebServer
 
 
     @Before
     @Throws(Exception::class)
     fun setup() {
-        launchMockWebServer()
+//        launchMockWebServer()
 
         scenario = ActivityScenario.launch(NewsListActivity::class.java)
         scenario.onActivity {
@@ -45,7 +41,7 @@ class NewsListActivityErrorTest {
     @After
     @Throws(java.lang.Exception::class)
     fun tearDown() {
-        webServer.shutdown()
+//        webServer.shutdown()
         scenario.close()
     }
 
@@ -53,8 +49,8 @@ class NewsListActivityErrorTest {
     @Test
     fun newsList_serverCallFails() {
 
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        webServer.dispatcher = MockServerDispatcher(appContext).ErrorDispatcher()
+//        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+//        webServer.dispatcher = MockServerDispatcher(appContext).ErrorDispatcher()
 
         // neither RecyclerView nor the Shimmer should be visible, only empty screen
         onView(
@@ -67,12 +63,12 @@ class NewsListActivityErrorTest {
     }
 
 
-    private fun launchMockWebServer() {
-        webServer = MockWebServer()
-        webServer.start(InetAddress.getByName("localhost"), 8080)
-
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        webServer.dispatcher = MockServerDispatcher(appContext).ErrorDispatcher()
-    }
+//    private fun launchMockWebServer() {
+//        webServer = MockWebServer()
+//        webServer.start(InetAddress.getByName("localhost"), 8080)
+//
+//        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+//        webServer.dispatcher = MockServerDispatcher(appContext).ErrorDispatcher()
+//    }
 
 }

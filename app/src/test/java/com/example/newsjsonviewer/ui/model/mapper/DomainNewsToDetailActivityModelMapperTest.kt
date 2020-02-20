@@ -1,6 +1,6 @@
 package com.example.newsjsonviewer.ui.model.mapper
 
-import com.example.newsjsonviewer.test.mock.MockGenerator.Companion.generateFirstMockDomainNewsFromUSList
+import com.example.newsjsonviewer.test.mock.generateFirstMockDomainNewsFromUSList
 import org.junit.Test
 
 import org.junit.Assert.*

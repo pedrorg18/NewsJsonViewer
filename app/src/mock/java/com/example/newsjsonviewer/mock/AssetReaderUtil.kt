@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.debug.mock
+package com.example.newsjsonviewer.mock
 
 import android.content.Context
 import java.io.IOException
@@ -9,10 +9,12 @@ object AssetReaderUtil {
 
     fun asset(context: Context, assetPath: String): String {
         return try {
-//            val buf = StringBuilder()
             val inputStream =
                 context.assets.open("body_files/$assetPath")
-            inputStreamToString(inputStream, "UTF-8")
+            inputStreamToString(
+                inputStream,
+                "UTF-8"
+            )
         } catch (e: IOException) {
             throw RuntimeException(e)
         }

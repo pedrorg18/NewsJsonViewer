@@ -1,6 +1,6 @@
 package com.example.newsjsonviewer.framework.network.mapper
 
-import com.example.newsjsonviewer.test.mock.MockGenerator.Companion.generateMockNewsListUS
+import com.example.newsjsonviewer.test.mock.generateMockNewsListUS
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

@@ -1,44 +1,21 @@
 package com.example.newsjsonviewer.test.mock
 
-import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.framework.network.mapper.NewsMapper
-import com.example.newsjsonviewer.framework.network.model.NewsListEntity
-import java.io.File
-import java.lang.RuntimeException
 import com.google.gson.Gson
+import java.io.File
 import java.nio.charset.Charset
-
-
-
 
 
 class MockGenerator {
 
     companion object {
 
-        /**
-         * Mock network news list model from US
-         */
-        fun generateMockNewsListUS(): NewsListEntity {
-            return getJsonEntityFromFileName("mock_us_news_list.json")
-        }
-
-        /**
-         * First domain mapped element from mock US list
-         */
-        fun generateFirstMockDomainNewsFromUSList(): News {
-            val networkNewsList = generateMockNewsListUS()
-            return NewsMapper().map(networkNewsList.articles.first())
-        }
-
-        private inline fun <reified T> getJsonEntityFromFileName(fileName: String): T {
+        inline fun <reified T> getJsonEntityFromFileName(fileName: String): T {
             val gson = Gson()
             val jsonString = getJsonContentFromFileName(fileName)
             return gson.fromJson(jsonString, T::class.java)
         }
 
-
-        private fun getJsonContentFromFileName(fileName: String): String {
+        fun getJsonContentFromFileName(fileName: String): String {
             val file = getFile(fileName)
             return getStringContentFromFile(file)
         }

@@ -1,13 +1,10 @@
-package com.example.newsjsonviewer.server
+package com.example.newsjsonviewer.mock
 
 import android.content.Context
-import com.example.newsjsonviewer.debug.mock.AssetReaderUtil
 import com.example.newsjsonviewer.framework.network.GET_LATEST_NEWS_PATH
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
-
 import okhttp3.mockwebserver.RecordedRequest
-
 
 internal class MockServerDispatcher(private val appContext: Context) {
 
@@ -37,6 +34,7 @@ internal class MockServerDispatcher(private val appContext: Context) {
     /**
      * Return error response from mock server
      */
+    @Suppress("unused")
     internal inner class ErrorDispatcher : Dispatcher() {
         override fun dispatch(request: RecordedRequest?): MockResponse {
             return MockResponse().setResponseCode(400)
