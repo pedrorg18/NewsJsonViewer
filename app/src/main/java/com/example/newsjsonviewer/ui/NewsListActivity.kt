@@ -1,6 +1,5 @@
 package com.example.newsjsonviewer.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
