@@ -2,44 +2,30 @@ package com.example.newsjsonviewer.framework.network
 
 import com.example.newsjsonviewer.data.repository.NewsProvider
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.framework.network.mapper.NewsMapper
+import com.example.newsjsonviewer.framework.network.mapper.NewsNetworkToDomainMapper
 import com.example.newsjsonviewer.framework.network.model.NewsListEntity
-import io.reactivex.SingleObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.Single
 import javax.inject.Inject
 
 class NewsProviderImpl @Inject constructor(private val networkManager: NetworkManager) : NewsProvider {
 
-    private val compositeDisposable = CompositeDisposable()
-
-    override fun getLatestNews(country: String, observer: SingleObserver<List<News>>) {
+    override fun getLatestNews(country: String): Single<List<News>> {
         val apiService = networkManager.getClient()
             .create(NewsRemoteService::class.java)
 
-        val observable = apiService.getLatestNews(NEWSAPI_API_KEY, country)
-        val disposable = observable
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(onNewsSuccess(observer), onNewsError(observer))
-
-        compositeDisposable.addAll(disposable)
-    }
-
-    private fun onNewsSuccess(observer: SingleObserver<List<News>>) = { newsListEntity: NewsListEntity ->
-        if(newsListEntity.status == NEWSAPI_STATUS_OK) {
-            observer.onSuccess(mapNetworkToDomainModel(newsListEntity))
-
-        } else {
-            observer.onError(IllegalStateException("Received error code from server: ${newsListEntity.status}"))
-        }
+        return apiService.getLatestNews(NEWSAPI_API_KEY, country)
+            .map { newsListEntity ->
+                if(newsListEntity.status == NEWSAPI_STATUS_OK)
+                    mapNetworkToDomainModelAndFilter(newsListEntity)
+                else
+                    throw IllegalStateException("Received error code from server: ${newsListEntity.status}")
+            }
     }
 
     // It filters news which don't have certain fields
-    private fun mapNetworkToDomainModel(newsListEntity: NewsListEntity) =
+    private fun mapNetworkToDomainModelAndFilter(newsListEntity: NewsListEntity) =
         newsListEntity.articles.map {
-            NewsMapper().map(it)
+            NewsNetworkToDomainMapper().map(it)
         }.filter {
             with(it) {
                 description != null && imageUrl != null && author != null && source != null && publishedAt != null
@@ -47,12 +33,4 @@ class NewsProviderImpl @Inject constructor(private val networkManager: NetworkMa
             }
         }
 
-
-    private fun onNewsError(observer: SingleObserver<List<News>>) = { error: Throwable ->
-        observer.onError(error)
-    }
-
-    override fun clean() {
-        compositeDisposable.dispose()
-    }
 }

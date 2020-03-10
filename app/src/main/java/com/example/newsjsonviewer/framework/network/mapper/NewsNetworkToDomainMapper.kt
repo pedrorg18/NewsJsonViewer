@@ -3,7 +3,7 @@ package com.example.newsjsonviewer.framework.network.mapper
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.framework.network.model.NewsEntity
 
-class NewsMapper {
+class NewsNetworkToDomainMapper {
 
     /**
      * Maps Json model to domain model.

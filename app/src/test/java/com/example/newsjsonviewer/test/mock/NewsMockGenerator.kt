@@ -1,7 +1,7 @@
 package com.example.newsjsonviewer.test.mock
 
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.framework.network.mapper.NewsMapper
+import com.example.newsjsonviewer.framework.network.mapper.NewsNetworkToDomainMapper
 import com.example.newsjsonviewer.framework.network.model.NewsListEntity
 import com.example.newsjsonviewer.test.mock.MockGenerator.Companion.getJsonEntityFromFileName
 
@@ -22,5 +22,5 @@ fun generateMockNewsListUS(): NewsListEntity {
  */
 fun generateFirstMockDomainNewsFromUSList(): News {
     val networkNewsList = generateMockNewsListUS()
-    return NewsMapper().map(networkNewsList.articles.first())
+    return NewsNetworkToDomainMapper().map(networkNewsList.articles.first())
 }

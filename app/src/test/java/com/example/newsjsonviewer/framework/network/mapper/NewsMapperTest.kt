@@ -12,7 +12,7 @@ class NewsMapperTest {
 
         val networkNewsList = generateMockNewsListUS()
 
-        val domainNews = NewsMapper().map(networkNewsList.articles.first())
+        val domainNews = NewsNetworkToDomainMapper().map(networkNewsList.articles.first())
         with(domainNews) {
             assertEquals("Cbssports.com", source)
             assertEquals("Andrew Julian", author)

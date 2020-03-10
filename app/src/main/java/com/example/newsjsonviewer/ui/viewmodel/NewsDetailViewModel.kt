@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.example.newsjsonviewer.data.repository.NewsRepository
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.ui.model.DetailActivityModel
-import javax.inject.Inject
 
 class NewsDetailViewModel(private var repository: NewsRepository) : ViewModel() {
 
@@ -18,8 +17,4 @@ class NewsDetailViewModel(private var repository: NewsRepository) : ViewModel() 
         newsDetailLiveData.value = repository.mapDomainNewsToDetailModel(news)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        repository.clean()
-    }
 }
