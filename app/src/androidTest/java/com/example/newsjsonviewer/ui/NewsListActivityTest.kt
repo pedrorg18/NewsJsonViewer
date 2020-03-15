@@ -67,6 +67,10 @@ class NewsListActivityTest {
         // Click on the first element of the List
         firstListElementInteraction.perform(click())
 
+        // check detail activity is displayed
+        onView(withId(R.id.root_view_detail))
+            .check(matches(isDisplayed()))
+
         pressBack()
 
         // re-check RV has 17 elements
