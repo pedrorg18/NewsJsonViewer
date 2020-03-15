@@ -52,6 +52,8 @@ class NewsListActivity : AppCompatActivity() {
 
         initRecyclerView()
 
+        initListeners()
+
         observeViewModel()
 
         viewModel.onEvent(NewsListEvent.ScreenLoadEvent)
@@ -76,11 +78,13 @@ class NewsListActivity : AppCompatActivity() {
 
     private fun renderContent(viewState: NewsListViewStateContent) {
         stopShimmer()
+        swipeRefresh.isRefreshing = false
         adapter.items = viewState.newsList
     }
 
     private fun renderError(message: String) {
         stopShimmer()
+        swipeRefresh.isRefreshing = false
         Toast.makeText(this@NewsListActivity, "There was an error: $message", Toast.LENGTH_LONG).show()
     }
 
@@ -109,6 +113,14 @@ class NewsListActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         rvNewsList.layoutManager = LinearLayoutManager(this)
         rvNewsList.adapter = adapter
+    }
+
+    private fun initListeners() {
+        swipeRefresh.setOnRefreshListener {
+            adapter.items = emptyList()
+            adapter.notifyDataSetChanged()
+            viewModel.onEvent(NewsListEvent.ScreenReLoadEvent)
+        }
     }
 
     private fun startShimmer() {

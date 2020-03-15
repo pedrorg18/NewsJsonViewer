@@ -31,11 +31,20 @@ class NewsListViewModel(private var repository: NewsRepository) : ViewModel() {
     fun onEvent(event: NewsListEvent) {
         when (event) {
             is NewsListEvent.ScreenLoadEvent -> onScreenLoad()
+            is NewsListEvent.ScreenReLoadEvent -> onScreenReLoad()
             is NewsListEvent.ElementClickEvent -> onElementClick(event.news, event.imageView)
         }
     }
 
     private fun onScreenLoad() {
+        doLoadNews()
+    }
+
+    private fun onScreenReLoad() {
+        doLoadNews()
+    }
+
+    private fun doLoadNews() {
         currentViewState = NewsListViewState.Loading
 
         loadNews(

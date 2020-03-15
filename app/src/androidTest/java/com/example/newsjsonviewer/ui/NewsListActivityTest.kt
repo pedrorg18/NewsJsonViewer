@@ -1,8 +1,6 @@
 package com.example.newsjsonviewer.ui
 
 
-import android.view.View
-import android.view.ViewGroup
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -10,15 +8,14 @@ import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.example.newsjsonviewer.R
+import com.example.newsjsonviewer.utils.childAtPosition
 import com.example.newsjsonviewer.utils.recyclerViewAtPositionOnView
 import com.example.newsjsonviewer.utils.recyclerViewSizeMatcher
-import org.hamcrest.Description
-import org.hamcrest.Matcher
-import org.hamcrest.Matchers.*
-import org.hamcrest.TypeSafeMatcher
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -26,7 +23,7 @@ import org.junit.runner.RunWith
 
 
 @LargeTest
-@RunWith(AndroidJUnit4::class)
+@RunWith(AndroidJUnit4ClassRunner::class)
 class NewsListActivityTest {
 
     lateinit var scenario: ActivityScenario<NewsListActivity>
@@ -51,73 +48,52 @@ class NewsListActivityTest {
     @Test
     fun newsListActivityTest() {
 
-        // Click on the first element of the List
-        val constraintLayout = onView(
+        // check shimmer is hidden
+        onView(withId(R.id.shimmerViewContainer))
+            .check(matches(withEffectiveVisibility(Visibility.GONE)))
+
+        // check recyclerView is displayed and has 17 elements
+        onView(withId(R.id.rvNewsList))
+            .check(matches(isDisplayed()))
+            .check(matches(recyclerViewSizeMatcher(17)))
+
+        // get first element from RV
+        val firstListElementInteraction = onView(
             allOf(
-                childAtPosition(
-                    allOf(
-                        withId(R.id.rvNewsList),
-                        childAtPosition(
-                            withClassName(`is`("androidx.constraintlayout.widget.ConstraintLayout")),
-                            0
-                        )
-                    ),
-                    0
-                ),
-                isDisplayed()
+                childAtPosition(withId(R.id.rvNewsList), 0),
+                withClassName(`is`("androidx.constraintlayout.widget.ConstraintLayout"))
             )
         )
-        constraintLayout.perform(click())
+        // Click on the first element of the List
+        firstListElementInteraction.perform(click())
 
         pressBack()
 
-        // check RV has 17 elements
+        // re-check RV has 17 elements
         onView(
             withId(R.id.rvNewsList)
         ).check(matches(recyclerViewSizeMatcher(17)))
 
         // check first element in the list has certain title
-        onView(withId(R.id.rvNewsList)).check(
-            matches(recyclerViewAtPositionOnView(0, withText("Roger Federer vs. Novak Djokovic live score: Wimbledon 2019 final updates as the championship heads to a fifth set - CBS Sports"), R.id.tvListItemTitle))
+        recyclerViewAtPositionOnView(
+            0,
+            withText("Roger Federer vs. Novak Djokovic live score: Wimbledon 2019 final updates as the championship heads to a fifth set - CBS Sports"),
+            R.id.tvListItemTitle
         )
 
-        // check first element in the list is displayed
-        val textView2 = onView(
-            allOf(
-                withId(R.id.tvListItemTitle),
-                withText(containsString("Wimbledon 2019 final updates as the championship heads to a fifth set")),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.rvNewsList),
-                        0
-                    ),
-                    1
-                ),
-                isDisplayed()
-            )
-        )
-        textView2.check(matches(isDisplayed()))
-
-        // check first element in the list has certain content
-        onView(withId(R.id.rvNewsList)).check(
-            matches(recyclerViewAtPositionOnView(0, withText("The matchup in 2019 finals at the All England Club is all we could have hoped for"), R.id.tvListItemContent))
+        // check first element in the list has certain description
+        recyclerViewAtPositionOnView(
+            0,
+            withText("Sure, if Rafael Nadal was on the marquee for the match, it might have the same sizzle"),
+            R.id.tvListItemContent
         )
 
+        // check second element in the list has certain title
+        recyclerViewAtPositionOnView(
+            1,
+            withText("Trump tweets racist attacks at progressive Democratic congresswomen - CNN"),
+            R.id.tvListItemTitle
+        )
     }
 
-    private fun childAtPosition(parentMatcher: Matcher<View>, position: Int): Matcher<View> {
-
-        return object : TypeSafeMatcher<View>() {
-            override fun describeTo(description: Description) {
-                description.appendText("Child at position $position in parent ")
-                parentMatcher.describeTo(description)
-            }
-
-            public override fun matchesSafely(view: View): Boolean {
-                val parent = view.parent
-                return parent is ViewGroup && parentMatcher.matches(parent)
-                        && view == parent.getChildAt(position)
-            }
-        }
-    }
 }
