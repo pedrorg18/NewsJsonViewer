@@ -2,19 +2,30 @@ package com.example.newsjsonviewer.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.newsjsonviewer.data.repository.NewsRepository
+import androidx.lifecycle.ViewModelProvider
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.ui.model.DetailActivityModel
+import com.example.newsjsonviewer.ui.model.mapper.NewsDetailDomainToViewStateMapper
+import com.example.newsjsonviewer.ui.viewstate.NewsDetailEvent
+import com.example.newsjsonviewer.ui.viewstate.NewsDetailViewState
 
-class NewsDetailViewModel(private var repository: NewsRepository) : ViewModel() {
+class NewsDetailViewModel : ViewModel() {
 
-    val newsDetailLiveData = MutableLiveData<DetailActivityModel>()
+    val viewStateLiveData = MutableLiveData<NewsDetailViewState>()
 
-    /**
-     * Receives one news object in Domain data format, converts it to View format
-     */
-    fun mapNewsToViewFormat(news: News) {
-        newsDetailLiveData.value = repository.mapDomainNewsToDetailModel(news)
+    fun onEvent(event: NewsDetailEvent) {
+        when(event) {
+            is NewsDetailEvent.LoadDetailScreen -> onLoadDetailScreen(event.news)
+        }
     }
 
+    private fun onLoadDetailScreen(news: News) {
+        viewStateLiveData.value = NewsDetailDomainToViewStateMapper().map(news)
+    }
+
+}
+
+class NewsDetailViewModelFactory : ViewModelProvider.NewInstanceFactory() {
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel?> create(modelClass: Class<T>) = NewsDetailViewModel() as T
 }

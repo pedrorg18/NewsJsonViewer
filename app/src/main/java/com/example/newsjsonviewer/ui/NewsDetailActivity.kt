@@ -11,78 +11,91 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.newsjsonviewer.R
-import com.example.newsjsonviewer.data.repository.NewsRepository
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.framework.app.NewsApplication
 import com.example.newsjsonviewer.ui.extensions.hide
 import com.example.newsjsonviewer.ui.image.loadImage
-import com.example.newsjsonviewer.ui.model.DetailActivityModel
 import com.example.newsjsonviewer.ui.viewmodel.NewsDetailViewModel
+import com.example.newsjsonviewer.ui.viewmodel.NewsDetailViewModelFactory
+import com.example.newsjsonviewer.ui.viewstate.NewsDetailEvent
+import com.example.newsjsonviewer.ui.viewstate.NewsDetailViewState
+import com.example.newsjsonviewer.ui.viewstate.NewsDetailViewStateContent
 import kotlinx.android.synthetic.main.activity_news_detail.*
 
 const val NEWS_TO_SHOW_DETAIL_EXTRA = "news_to_show_detail"
 
 class NewsDetailActivity : AppCompatActivity() {
 
-    private val viewModel by lazy {
-        val repo = (application as NewsApplication).getComponent().newsRepository()
-        val vm = NewsDetailViewModelFactory(repo).create(NewsDetailViewModel::class.java)
+    private val viewModel by lazy { initViewModel() }
 
-        vm
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_detail)
 
-        initAndObserveViewModel()
+        observeViewModel()
 
         supportPostponeEnterTransition()
 
         initListeners()
+
+        viewModel.onEvent(
+            NewsDetailEvent.LoadDetailScreen(
+                intent.getSerializableExtra(NEWS_TO_SHOW_DETAIL_EXTRA) as News)
+            )
     }
 
-    private fun initAndObserveViewModel() {
-        viewModel.newsDetailLiveData.observe(this, Observer { news ->
-            layoutNews(news)
+    private fun initViewModel(): NewsDetailViewModel {
+        return  NewsDetailViewModelFactory().create(NewsDetailViewModel::class.java)
+    }
+
+    private fun observeViewModel() {
+        viewModel.viewStateLiveData.observe(this, Observer { viewState ->
+            render(viewState)
         })
-
-        // Get news object form list screen, adapt it to detail
-        viewModel.mapNewsToViewFormat(intent.getSerializableExtra(NEWS_TO_SHOW_DETAIL_EXTRA) as News)
     }
 
-    private fun layoutNews(news: DetailActivityModel) {
-        with(news) {
+    private fun render(viewState: NewsDetailViewState) {
+        when(viewState) {
+            is NewsDetailViewState.Content -> renderContent(viewState.content)
+        }
+
+    }
+
+    private fun renderContent(content: NewsDetailViewStateContent) {
+        with(content) {
             // add listener for the animation not to occur until the image is loaded, as Glide has
             // an issue with animation transitions when not yet loaded
-            loadImage(ivDetail, news.imageUrl, object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    supportStartPostponedEnterTransition()
-                    return false
-                }
+            loadImage(
+                ivDetail,
+                content.imageUrl,
+                object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        supportStartPostponedEnterTransition()
+                        return false
+                    }
 
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    supportStartPostponedEnterTransition()
-                    return false
-                }
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        supportStartPostponedEnterTransition()
+                        return false
+                    }
 
-            })
+                })
 
             tvDetailTitle.text = title
             tvDetailSubtitle.text = subTitle
             tvDetailAuthorAndDate.text = authorAndDate
-            tvDetailcontent.text = content
+            tvDetailcontent.text = this.content
         }
     }
 
@@ -93,10 +106,4 @@ class NewsDetailActivity : AppCompatActivity() {
         }
     }
 
-}
-
-class NewsDetailViewModelFactory(private val repo: NewsRepository) : ViewModelProvider.NewInstanceFactory() {
-
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>) = NewsDetailViewModel(repo) as T
 }
