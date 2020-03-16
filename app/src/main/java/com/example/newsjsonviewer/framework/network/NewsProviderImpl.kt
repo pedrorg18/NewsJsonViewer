@@ -11,7 +11,7 @@ class NewsProviderImpl @Inject constructor(private val networkManager: NetworkMa
 
     override fun getLatestNews(country: String): Single<List<News>> {
         val apiService = networkManager.getClient()
-            .create(NewsRemoteService::class.java)
+            .create(NewsApiInterface::class.java)
 
         return apiService.getLatestNews(NEWSAPI_API_KEY, country)
             .map { newsListEntity ->
