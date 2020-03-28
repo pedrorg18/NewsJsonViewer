@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.ui.image.loadImage
+import com.example.newsjsonviewer.globals.utils.loadImage
 import kotlin.properties.Delegates
 
 class NewsListAdapter(private val onElementClick: (News, ImageView) -> Unit)
@@ -32,7 +32,10 @@ class NewsListAdapter(private val onElementClick: (News, ImageView) -> Unit)
         val item = items[position]
         vh.title.text = item.title
         vh.description.text = item.description ?: ""
-        loadImage(vh.image, item.imageUrl!!)
+        loadImage(
+            vh.image,
+            item.imageUrl!!
+        )
 
         vh.rootView.setOnClickListener {
             onElementClick(item.domainObject, vh.image)

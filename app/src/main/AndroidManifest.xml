@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".framework.app.NewsApplication"
+        android:name=".globals.NewsApplication"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <uses-library android:name="android.test.runner"
             android:required="false" />

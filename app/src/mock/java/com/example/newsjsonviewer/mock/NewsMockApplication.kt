@@ -3,12 +3,13 @@ package com.example.newsjsonviewer.mock
 import android.annotation.SuppressLint
 import android.util.Log
 import com.example.newsjsonviewer.di.IAppComponent
-import com.example.newsjsonviewer.framework.app.NewsApplication
+import com.example.newsjsonviewer.globals.NewsApplication
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.mockwebserver.MockWebServer
 import java.net.InetAddress
 
+@SuppressLint("Registered")
 class NewsMockApplication : NewsApplication() {
 
 

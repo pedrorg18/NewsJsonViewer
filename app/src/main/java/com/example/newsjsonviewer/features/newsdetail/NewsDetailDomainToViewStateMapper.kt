@@ -1,7 +1,7 @@
 package com.example.newsjsonviewer.features.newsdetail
 
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.utils.extensions.formatDdMmYyyyHhMm
+import com.example.newsjsonviewer.globals.utils.formatDdMmYyyyHhMm
 
 class NewsDetailDomainToViewStateMapper {
 

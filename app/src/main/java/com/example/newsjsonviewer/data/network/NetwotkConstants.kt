@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.framework.network
+package com.example.newsjsonviewer.data.network
 
 const val BASE_URL = "https://newsapi.org/"
 

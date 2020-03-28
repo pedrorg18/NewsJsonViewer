@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.framework.network.model
+package com.example.newsjsonviewer.data.network.model
 
 data class NewsListEntity (
     val status: String,

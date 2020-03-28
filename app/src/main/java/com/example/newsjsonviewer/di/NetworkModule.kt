@@ -1,6 +1,6 @@
 package com.example.newsjsonviewer.di
 
-import com.example.newsjsonviewer.framework.network.BASE_URL
+import com.example.newsjsonviewer.data.network.BASE_URL
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -15,11 +15,11 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    private val REQUEST_TIMEOUT = 60
+    private val requestTimeout = 60
 
     @Provides
     @Singleton
-    open fun getRetrofit(client: OkHttpClient) =
+    fun getRetrofit(client: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
@@ -31,9 +31,9 @@ class NetworkModule {
     @Singleton
     fun getOkHttpClient(): OkHttpClient {
         val httpClient = OkHttpClient().newBuilder()
-            .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .readTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .writeTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .connectTimeout(requestTimeout.toLong(), TimeUnit.SECONDS)
+            .readTimeout(requestTimeout.toLong(), TimeUnit.SECONDS)
+            .writeTimeout(requestTimeout.toLong(), TimeUnit.SECONDS)
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY

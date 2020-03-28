@@ -1,8 +1,8 @@
 package com.example.newsjsonviewer.test.mock
 
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.framework.network.mapper.NewsNetworkToDomainMapper
-import com.example.newsjsonviewer.framework.network.model.NewsListEntity
+import com.example.newsjsonviewer.data.network.mapper.NewsNetworkToDomainMapper
+import com.example.newsjsonviewer.data.network.model.NewsListEntity
 import com.example.newsjsonviewer.test.mock.MockGenerator.Companion.getJsonEntityFromFileName
 
 /**

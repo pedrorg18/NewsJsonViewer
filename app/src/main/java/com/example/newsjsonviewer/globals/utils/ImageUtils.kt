@@ -1,7 +1,8 @@
-package com.example.newsjsonviewer.ui.image
+package com.example.newsjsonviewer.globals.utils
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestListener
 
 
@@ -10,7 +11,7 @@ fun loadImage(
     imageUrl: String,
     imageLoadListener: RequestListener<Drawable>? = null
 ) {
-    GlideApp.with(imageView.context)
+    Glide.with(imageView.context)
         .load(imageUrl)
         .apply {
             imageLoadListener?.let {

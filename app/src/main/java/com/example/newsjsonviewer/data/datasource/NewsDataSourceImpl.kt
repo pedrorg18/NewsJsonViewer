@@ -1,13 +1,17 @@
-package com.example.newsjsonviewer.framework.network
+package com.example.newsjsonviewer.data.datasource
 
-import com.example.newsjsonviewer.data.repository.NewsProvider
+import com.example.newsjsonviewer.data.network.NEWSAPI_API_KEY
+import com.example.newsjsonviewer.data.network.NEWSAPI_STATUS_OK
+import com.example.newsjsonviewer.data.network.NetworkManager
+import com.example.newsjsonviewer.data.network.NewsApiInterface
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.framework.network.mapper.NewsNetworkToDomainMapper
-import com.example.newsjsonviewer.framework.network.model.NewsListEntity
+import com.example.newsjsonviewer.data.network.mapper.NewsNetworkToDomainMapper
+import com.example.newsjsonviewer.data.network.model.NewsListEntity
 import io.reactivex.Single
 import javax.inject.Inject
 
-class NewsProviderImpl @Inject constructor(private val networkManager: NetworkManager) : NewsProvider {
+class NewsDataSourceImpl @Inject constructor(private val networkManager: NetworkManager) :
+    NewsDataSource {
 
     override fun getLatestNews(country: String): Single<List<News>> {
         val apiService = networkManager.getClient()

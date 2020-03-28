@@ -4,9 +4,9 @@ import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.newsjsonviewer.data.repository.NewsRepository
+import com.example.newsjsonviewer.data.network.COUNTRY_CODE_US
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.framework.network.COUNTRY_CODE_US
+import com.example.newsjsonviewer.domain.repository.NewsRepository
 import com.example.newsjsonviewer.globals.BaseViewModel
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -9,13 +9,13 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsjsonviewer.R
-import com.example.newsjsonviewer.data.repository.NewsRepository
 import com.example.newsjsonviewer.domain.model.News
+import com.example.newsjsonviewer.domain.repository.NewsRepository
 import com.example.newsjsonviewer.features.newsdetail.NEWS_TO_SHOW_DETAIL_EXTRA
 import com.example.newsjsonviewer.features.newsdetail.NewsDetailActivity
 import com.example.newsjsonviewer.globals.BaseActivity
-import com.example.newsjsonviewer.ui.extensions.hide
-import com.example.newsjsonviewer.ui.extensions.show
+import com.example.newsjsonviewer.globals.utils.hide
+import com.example.newsjsonviewer.globals.utils.show
 import kotlinx.android.synthetic.main.activity_news_list.*
 import javax.inject.Inject
 

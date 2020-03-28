@@ -1,10 +1,9 @@
-package com.example.newsjsonviewer.ui.model.mapper
+package com.example.newsjsonviewer.features.newsdetail
 
-import com.example.newsjsonviewer.features.newsdetail.NewsDetailDomainToViewStateMapper
 import com.example.newsjsonviewer.test.mock.generateFirstMockDomainNewsFromUSList
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class NewsDetailDomainToViewStateMapperTest {
 

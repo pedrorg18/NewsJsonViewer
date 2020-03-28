@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.framework.network
+package com.example.newsjsonviewer.data.network
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

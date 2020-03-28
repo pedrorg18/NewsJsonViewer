@@ -1,7 +1,7 @@
 package com.example.newsjsonviewer.mock
 
 import android.content.Context
-import com.example.newsjsonviewer.framework.network.GET_LATEST_NEWS_PATH
+import com.example.newsjsonviewer.data.network.GET_LATEST_NEWS_PATH
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest

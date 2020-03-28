@@ -10,8 +10,8 @@ import com.bumptech.glide.request.target.Target
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.globals.BaseActivity
-import com.example.newsjsonviewer.ui.extensions.hide
-import com.example.newsjsonviewer.ui.image.loadImage
+import com.example.newsjsonviewer.globals.utils.hide
+import com.example.newsjsonviewer.globals.utils.loadImage
 import kotlinx.android.synthetic.main.activity_news_detail.*
 
 const val NEWS_TO_SHOW_DETAIL_EXTRA = "news_to_show_detail"

@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.ui.extensions
+package com.example.newsjsonviewer.globals.utils
 
 import android.content.Context
 import android.graphics.drawable.Drawable

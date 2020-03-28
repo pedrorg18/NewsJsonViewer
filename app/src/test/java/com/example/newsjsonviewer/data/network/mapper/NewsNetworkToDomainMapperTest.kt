@@ -1,11 +1,11 @@
-package com.example.newsjsonviewer.framework.network.mapper
+package com.example.newsjsonviewer.data.network.mapper
 
 import com.example.newsjsonviewer.test.mock.generateMockNewsListUS
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class NewsMapperTest {
+class NewsNetworkToDomainMapperTest {
 
     @Test
     fun checkFistMappedNews_isCorrect() {

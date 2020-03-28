@@ -1,7 +1,7 @@
-package com.example.newsjsonviewer.framework.network.mapper
+package com.example.newsjsonviewer.data.network.mapper
 
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.framework.network.model.NewsEntity
+import com.example.newsjsonviewer.data.network.model.NewsEntity
 
 class NewsNetworkToDomainMapper {
 

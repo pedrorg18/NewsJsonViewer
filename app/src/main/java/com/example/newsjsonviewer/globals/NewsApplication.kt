@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.framework.app
+package com.example.newsjsonviewer.globals
 
 import android.annotation.SuppressLint
 import android.app.Application

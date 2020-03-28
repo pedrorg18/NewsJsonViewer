@@ -1,6 +1,6 @@
-package com.example.newsjsonviewer.framework.network
+package com.example.newsjsonviewer.data.network
 
-import com.example.newsjsonviewer.framework.network.model.NewsListEntity
+import com.example.newsjsonviewer.data.network.model.NewsListEntity
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query

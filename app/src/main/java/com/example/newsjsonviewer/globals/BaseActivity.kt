@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.test.espresso.idling.CountingIdlingResource
-import com.example.newsjsonviewer.framework.app.NewsApplication
 import com.example.newsjsonviewer.features.newsdetail.NewsDetailActivity
 import com.example.newsjsonviewer.features.newslist.NewsListActivity
 
