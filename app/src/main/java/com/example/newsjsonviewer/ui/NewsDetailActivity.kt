@@ -2,16 +2,14 @@ package com.example.newsjsonviewer.ui
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.domain.model.News
+import com.example.newsjsonviewer.globals.BaseActivity
 import com.example.newsjsonviewer.ui.extensions.hide
 import com.example.newsjsonviewer.ui.image.loadImage
 import com.example.newsjsonviewer.ui.viewmodel.NewsDetailViewModel
@@ -23,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_news_detail.*
 
 const val NEWS_TO_SHOW_DETAIL_EXTRA = "news_to_show_detail"
 
-class NewsDetailActivity : AppCompatActivity() {
+class NewsDetailActivity : BaseActivity() {
 
     private val viewModel by lazy { initViewModel() }
 

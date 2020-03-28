@@ -34,7 +34,7 @@ class NewsListActivityTest {
     fun setup() {
         scenario = ActivityScenario.launch(NewsListActivity::class.java)
         scenario.onActivity {
-            val idlingResource = it.getIdlingResource()!!
+            val idlingResource = it.idlingResource()!!
             IdlingRegistry.getInstance().register(idlingResource)
         }
     }

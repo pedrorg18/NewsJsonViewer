@@ -4,16 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.VisibleForTesting
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.test.espresso.idling.CountingIdlingResource
 import com.example.newsjsonviewer.R
+import com.example.newsjsonviewer.data.repository.NewsRepository
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.framework.app.NewsApplication
+import com.example.newsjsonviewer.globals.BaseActivity
 import com.example.newsjsonviewer.ui.adapter.NewsListAdapter
 import com.example.newsjsonviewer.ui.extensions.hide
 import com.example.newsjsonviewer.ui.extensions.show
@@ -24,23 +22,24 @@ import com.example.newsjsonviewer.ui.viewstate.NewsListViewEffect
 import com.example.newsjsonviewer.ui.viewstate.NewsListViewState
 import com.example.newsjsonviewer.ui.viewstate.NewsListViewStateContent
 import kotlinx.android.synthetic.main.activity_news_list.*
+import javax.inject.Inject
 
 
-class NewsListActivity : AppCompatActivity() {
+class NewsListActivity : BaseActivity() {
 
     private val adapter by lazy { initAdapter() }
 
     private val viewModel by lazy { initViewModel() }
 
+    @Inject
+    protected lateinit var repo: NewsRepository
+
     private fun initViewModel(): NewsListViewModel {
-        val repo = (application as NewsApplication).getComponent().newsRepository()
         val vm = NewsListViewModelFactory(repo).create(NewsListViewModel::class.java)
 
         vm.initIdlingResource(idlingResource)
         return vm
     }
-
-    private var idlingResource: CountingIdlingResource? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,17 +128,6 @@ class NewsListActivity : AppCompatActivity() {
     private fun stopShimmer() {
         shimmerViewContainer.stopShimmer()
         shimmerViewContainer.hide()
-    }
-
-    /**
-     * Only called from test, creates and returns a new [CountingIdlingResource].
-     */
-    @VisibleForTesting
-    fun getIdlingResource(): CountingIdlingResource? {
-        if (idlingResource == null) {
-            idlingResource = CountingIdlingResource("NEWS_LIST_REMOTE_CALLS")
-        }
-        return idlingResource
     }
 
 }
