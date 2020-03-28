@@ -17,7 +17,6 @@ fun loadImage(
                 listener(imageLoadListener)
             }
         }
-        .listener(imageLoadListener)
         .into(imageView)
 
 }

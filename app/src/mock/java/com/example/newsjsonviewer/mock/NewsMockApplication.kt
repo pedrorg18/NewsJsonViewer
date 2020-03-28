@@ -23,6 +23,7 @@ class NewsMockApplication : NewsApplication() {
         if(applicationComponent == null)
             applicationComponent = DaggerMockApplicationComponent.builder()
                 .mockApplicationModule(MockApplicationModule(this))
+                .mockNetworkModule(MockNetworkModule())
                 .build()
 
         return applicationComponent!!
@@ -32,7 +33,7 @@ class NewsMockApplication : NewsApplication() {
     private fun launchMockWebServer() {
       Completable.fromAction {
           webServer = MockWebServer()
-          webServer.start(InetAddress.getByName("localhost"), 8080)
+          webServer.start(InetAddress.getByName("localhost"), 8081)
 
           webServer.dispatcher = MockServerDispatcher(
               this

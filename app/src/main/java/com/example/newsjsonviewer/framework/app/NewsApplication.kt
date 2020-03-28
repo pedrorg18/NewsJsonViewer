@@ -5,6 +5,7 @@ import android.app.Application
 import com.example.newsjsonviewer.di.ApplicationModule
 import com.example.newsjsonviewer.di.DaggerApplicationComponent
 import com.example.newsjsonviewer.di.IAppComponent
+import com.example.newsjsonviewer.di.NetworkModule
 
 // In fact it's registered in the manifest. Warning caused because there is a mock subclass
 @SuppressLint("Registered")
@@ -16,6 +17,7 @@ open class NewsApplication : Application() {
         if(applicationComponent == null)
             applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule())
+                .networkModule(NetworkModule())
                 .build()
 
         return applicationComponent!!

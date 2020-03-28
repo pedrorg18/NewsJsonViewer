@@ -5,5 +5,5 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [MockApplicationModule::class])
+@Component(modules = [MockApplicationModule::class, MockNetworkModule::class])
 interface MockApplicationComponent : IAppComponent
