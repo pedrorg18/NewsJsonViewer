@@ -3,16 +3,21 @@ package com.example.newsjsonviewer.ui.viewmodel
 import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.test.espresso.idling.CountingIdlingResource
+import androidx.lifecycle.ViewModelProvider
 import com.example.newsjsonviewer.data.repository.NewsRepository
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.framework.network.COUNTRY_CODE_US
+import com.example.newsjsonviewer.globals.BaseViewModel
 import com.example.newsjsonviewer.ui.viewstate.*
+import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class NewsListViewModel(private var repository: NewsRepository) : ViewModel() {
+class NewsListViewModel (private var repository: NewsRepository,
+                         private val subscriberScheduler: Scheduler = Schedulers.io(),
+                         private val observerScheduler: Scheduler = AndroidSchedulers.mainThread()
+)
+    : BaseViewModel() {
 
     val viewStateLD = MutableLiveData<NewsListViewState>()
     val viewEffectsLD = MutableLiveData<NewsListViewEffect>()
@@ -22,10 +27,6 @@ class NewsListViewModel(private var repository: NewsRepository) : ViewModel() {
             field = value
             viewStateLD.value = value
         }
-
-    private val compositeDisposable = CompositeDisposable()
-
-    private var idlingResource: CountingIdlingResource? = null
 
 
     fun onEvent(event: NewsListEvent) {
@@ -74,8 +75,8 @@ class NewsListViewModel(private var repository: NewsRepository) : ViewModel() {
         idlingResource?.increment()
         compositeDisposable.add(
             repository.getLatestNews(COUNTRY_CODE_US)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(subscriberScheduler)
+                .observeOn(observerScheduler)
                 .subscribe(
                     {
                         successFunction(it)
@@ -93,13 +94,11 @@ class NewsListViewModel(private var repository: NewsRepository) : ViewModel() {
             NewsListViewStateContent(emptyList())
         )
 
+}
 
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.dispose()
-    }
+class NewsListViewModelFactory(private val repo: NewsRepository) :
+    ViewModelProvider.NewInstanceFactory() {
 
-    fun setIdlingResource(idlingResource: CountingIdlingResource?) {
-        this.idlingResource = idlingResource
-    }
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel?> create(modelClass: Class<T>) = NewsListViewModel(repo) as T
 }

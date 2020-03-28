@@ -4,11 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.newsjsonviewer.domain.model.News
+import com.example.newsjsonviewer.globals.BaseViewModel
 import com.example.newsjsonviewer.ui.model.mapper.NewsDetailDomainToViewStateMapper
 import com.example.newsjsonviewer.ui.viewstate.NewsDetailEvent
 import com.example.newsjsonviewer.ui.viewstate.NewsDetailViewState
 
-class NewsDetailViewModel : ViewModel() {
+class NewsDetailViewModel : BaseViewModel() {
 
     val viewStateLiveData = MutableLiveData<NewsDetailViewState>()
 

@@ -9,20 +9,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.test.espresso.idling.CountingIdlingResource
 import com.example.newsjsonviewer.R
-import com.example.newsjsonviewer.data.repository.NewsRepository
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.framework.app.NewsApplication
 import com.example.newsjsonviewer.ui.adapter.NewsListAdapter
 import com.example.newsjsonviewer.ui.extensions.hide
 import com.example.newsjsonviewer.ui.extensions.show
 import com.example.newsjsonviewer.ui.viewmodel.NewsListViewModel
-import com.example.newsjsonviewer.ui.viewstate.NewsListViewEffect
+import com.example.newsjsonviewer.ui.viewmodel.NewsListViewModelFactory
 import com.example.newsjsonviewer.ui.viewstate.NewsListEvent
+import com.example.newsjsonviewer.ui.viewstate.NewsListViewEffect
 import com.example.newsjsonviewer.ui.viewstate.NewsListViewState
 import com.example.newsjsonviewer.ui.viewstate.NewsListViewStateContent
 import kotlinx.android.synthetic.main.activity_news_list.*
@@ -38,11 +36,11 @@ class NewsListActivity : AppCompatActivity() {
         val repo = (application as NewsApplication).getComponent().newsRepository()
         val vm = NewsListViewModelFactory(repo).create(NewsListViewModel::class.java)
 
-        vm.setIdlingResource(idlingResource)
+        vm.initIdlingResource(idlingResource)
         return vm
     }
 
-    private var idlingResource: CountingIdlingResource? = getIdlingResource()
+    private var idlingResource: CountingIdlingResource? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,11 +142,4 @@ class NewsListActivity : AppCompatActivity() {
         return idlingResource
     }
 
-}
-
-class NewsListViewModelFactory(private val repo: NewsRepository) :
-    ViewModelProvider.NewInstanceFactory() {
-
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>) = NewsListViewModel(repo) as T
 }
