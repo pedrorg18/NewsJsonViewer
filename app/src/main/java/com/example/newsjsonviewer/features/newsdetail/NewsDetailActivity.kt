@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.ui
+package com.example.newsjsonviewer.features.newsdetail
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -12,11 +12,6 @@ import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.globals.BaseActivity
 import com.example.newsjsonviewer.ui.extensions.hide
 import com.example.newsjsonviewer.ui.image.loadImage
-import com.example.newsjsonviewer.ui.viewmodel.NewsDetailViewModel
-import com.example.newsjsonviewer.ui.viewmodel.NewsDetailViewModelFactory
-import com.example.newsjsonviewer.ui.viewstate.NewsDetailEvent
-import com.example.newsjsonviewer.ui.viewstate.NewsDetailViewState
-import com.example.newsjsonviewer.ui.viewstate.NewsDetailViewStateContent
 import kotlinx.android.synthetic.main.activity_news_detail.*
 
 const val NEWS_TO_SHOW_DETAIL_EXTRA = "news_to_show_detail"
@@ -43,7 +38,8 @@ class NewsDetailActivity : BaseActivity() {
     }
 
     private fun initViewModel(): NewsDetailViewModel {
-        return  NewsDetailViewModelFactory().create(NewsDetailViewModel::class.java)
+        return  NewsDetailViewModelFactory()
+            .create(NewsDetailViewModel::class.java)
     }
 
     private fun observeViewModel() {

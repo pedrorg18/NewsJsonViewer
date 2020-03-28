@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.ui
+package com.example.newsjsonviewer.features.newslist
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,16 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.data.repository.NewsRepository
 import com.example.newsjsonviewer.domain.model.News
+import com.example.newsjsonviewer.features.newsdetail.NEWS_TO_SHOW_DETAIL_EXTRA
+import com.example.newsjsonviewer.features.newsdetail.NewsDetailActivity
 import com.example.newsjsonviewer.globals.BaseActivity
-import com.example.newsjsonviewer.ui.adapter.NewsListAdapter
 import com.example.newsjsonviewer.ui.extensions.hide
 import com.example.newsjsonviewer.ui.extensions.show
-import com.example.newsjsonviewer.ui.viewmodel.NewsListViewModel
-import com.example.newsjsonviewer.ui.viewmodel.NewsListViewModelFactory
-import com.example.newsjsonviewer.ui.viewstate.NewsListEvent
-import com.example.newsjsonviewer.ui.viewstate.NewsListViewEffect
-import com.example.newsjsonviewer.ui.viewstate.NewsListViewState
-import com.example.newsjsonviewer.ui.viewstate.NewsListViewStateContent
 import kotlinx.android.synthetic.main.activity_news_list.*
 import javax.inject.Inject
 
@@ -35,7 +30,9 @@ class NewsListActivity : BaseActivity() {
     protected lateinit var repo: NewsRepository
 
     private fun initViewModel(): NewsListViewModel {
-        val vm = NewsListViewModelFactory(repo).create(NewsListViewModel::class.java)
+        val vm = NewsListViewModelFactory(
+            repo
+        ).create(NewsListViewModel::class.java)
 
         vm.initIdlingResource(idlingResource)
         return vm

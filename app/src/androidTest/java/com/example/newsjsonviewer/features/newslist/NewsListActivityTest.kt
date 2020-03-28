@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.ui
+package com.example.newsjsonviewer.features.newslist
 
 
 import androidx.test.core.app.ActivityScenario

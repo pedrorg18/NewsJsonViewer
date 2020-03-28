@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.ui
+package com.example.newsjsonviewer.features.newsdetail
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
@@ -25,7 +25,8 @@ class NewsDetailActivityTest {
         scenario = ActivityScenario.launch(
             Intent(ApplicationProvider.getApplicationContext(), NewsDetailActivity::class.java)
                 .apply {
-                    putExtra(NEWS_TO_SHOW_DETAIL_EXTRA,
+                    putExtra(
+                        NEWS_TO_SHOW_DETAIL_EXTRA,
                         generateFirstMockDomainNewsFromUSList())
                 })
     }

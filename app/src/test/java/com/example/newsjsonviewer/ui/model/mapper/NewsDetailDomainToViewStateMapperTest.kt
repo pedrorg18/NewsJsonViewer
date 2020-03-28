@@ -1,5 +1,6 @@
 package com.example.newsjsonviewer.ui.model.mapper
 
+import com.example.newsjsonviewer.features.newsdetail.NewsDetailDomainToViewStateMapper
 import com.example.newsjsonviewer.test.mock.generateFirstMockDomainNewsFromUSList
 import org.junit.Test
 
@@ -10,7 +11,8 @@ class NewsDetailDomainToViewStateMapperTest {
     @Test
     fun map() {
         val news = generateFirstMockDomainNewsFromUSList()
-        val detailViewState = NewsDetailDomainToViewStateMapper().map(news)
+        val detailViewState = NewsDetailDomainToViewStateMapper()
+            .map(news)
         with(detailViewState.content) {
             assertEquals("https://sportshub.cbsistatic.com/i/r/2019/07/13/cb4a9511-605b-4571-8d03-060d65e1d31d/thumbnail/1200x675/6b18dbf46bc11fd6f41c7e88abc7846c/usatsi-13024725.jpg",
                 imageUrl)

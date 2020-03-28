@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.ui.viewmodel
+package com.example.newsjsonviewer.features.newslist
 
 import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,6 @@ import com.example.newsjsonviewer.data.repository.NewsRepository
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.framework.network.COUNTRY_CODE_US
 import com.example.newsjsonviewer.globals.BaseViewModel
-import com.example.newsjsonviewer.ui.viewstate.*
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -50,7 +49,8 @@ class NewsListViewModel (private var repository: NewsRepository,
 
         loadNews(
             { newsList ->
-                currentViewState = NewsListDomainToViewStateMapper().map(newsList)
+                currentViewState = NewsListDomainToViewStateMapper()
+                    .map(newsList)
             },
             { error ->
                 currentViewState = NewsListViewState.Error(error.message!!)
@@ -91,7 +91,9 @@ class NewsListViewModel (private var repository: NewsRepository,
 
     private fun initialViewState() =
         NewsListViewState.Content(
-            NewsListViewStateContent(emptyList())
+            NewsListViewStateContent(
+                emptyList()
+            )
         )
 
 }
@@ -100,5 +102,7 @@ class NewsListViewModelFactory(private val repo: NewsRepository) :
     ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>) = NewsListViewModel(repo) as T
+    override fun <T : ViewModel?> create(modelClass: Class<T>) = NewsListViewModel(
+        repo
+    ) as T
 }

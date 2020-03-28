@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.ui.viewstate
+package com.example.newsjsonviewer.features.newsdetail
 
 sealed class NewsDetailViewState {
 

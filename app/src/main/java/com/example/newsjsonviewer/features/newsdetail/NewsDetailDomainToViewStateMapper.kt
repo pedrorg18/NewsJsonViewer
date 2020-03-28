@@ -1,8 +1,6 @@
-package com.example.newsjsonviewer.ui.model.mapper
+package com.example.newsjsonviewer.features.newsdetail
 
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.ui.viewstate.NewsDetailViewState
-import com.example.newsjsonviewer.ui.viewstate.NewsDetailViewStateContent
 import com.example.newsjsonviewer.utils.extensions.formatDdMmYyyyHhMm
 
 class NewsDetailDomainToViewStateMapper {
@@ -16,7 +14,8 @@ class NewsDetailDomainToViewStateMapper {
                     description!!,
                     "$author · ${publishedAt!!.formatDdMmYyyyHhMm()}",
                     "Source: $source",
-                     content!!)
+                    content!!
+                )
             )
         }
 

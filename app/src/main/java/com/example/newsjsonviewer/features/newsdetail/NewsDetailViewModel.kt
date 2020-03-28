@@ -1,13 +1,10 @@
-package com.example.newsjsonviewer.ui.viewmodel
+package com.example.newsjsonviewer.features.newsdetail
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.globals.BaseViewModel
-import com.example.newsjsonviewer.ui.model.mapper.NewsDetailDomainToViewStateMapper
-import com.example.newsjsonviewer.ui.viewstate.NewsDetailEvent
-import com.example.newsjsonviewer.ui.viewstate.NewsDetailViewState
 
 class NewsDetailViewModel : BaseViewModel() {
 
@@ -20,7 +17,8 @@ class NewsDetailViewModel : BaseViewModel() {
     }
 
     private fun onLoadDetailScreen(news: News) {
-        viewStateLiveData.value = NewsDetailDomainToViewStateMapper().map(news)
+        viewStateLiveData.value = NewsDetailDomainToViewStateMapper()
+            .map(news)
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.newsjsonviewer.ui.adapter
+package com.example.newsjsonviewer.features.newslist
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.ui.image.loadImage
-import com.example.newsjsonviewer.ui.viewstate.NewsListElementViewStateContent
 import kotlin.properties.Delegates
 
 class NewsListAdapter(private val onElementClick: (News, ImageView) -> Unit)
@@ -21,7 +20,9 @@ class NewsListAdapter(private val onElementClick: (News, ImageView) -> Unit)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.news_list_item, parent, false))
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.news_list_item, parent, false)
+        )
     }
 
     override fun getItemCount() =
