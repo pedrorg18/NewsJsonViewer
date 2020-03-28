@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.domain.repository.NewsRepository
+import com.example.newsjsonviewer.domain.usecases.GetNewsUseCase
 import com.example.newsjsonviewer.features.newsdetail.NEWS_TO_SHOW_DETAIL_EXTRA
 import com.example.newsjsonviewer.features.newsdetail.NewsDetailActivity
 import com.example.newsjsonviewer.globals.BaseActivity
@@ -27,12 +27,11 @@ class NewsListActivity : BaseActivity() {
     private val viewModel by lazy { initViewModel() }
 
     @Inject
-    protected lateinit var repo: NewsRepository
+    protected lateinit var getNewsUseCase: GetNewsUseCase
 
     private fun initViewModel(): NewsListViewModel {
-        val vm = NewsListViewModelFactory(
-            repo
-        ).create(NewsListViewModel::class.java)
+        val vm = NewsListViewModelFactory(getNewsUseCase)
+            .create(NewsListViewModel::class.java)
 
         vm.initIdlingResource(idlingResource)
         return vm

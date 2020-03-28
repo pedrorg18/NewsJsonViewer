@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.newsjsonviewer.data.network.COUNTRY_CODE_US
 import com.example.newsjsonviewer.domain.model.News
-import com.example.newsjsonviewer.domain.repository.NewsRepository
+import com.example.newsjsonviewer.domain.usecases.GetNewsUseCase
 import com.example.newsjsonviewer.globals.BaseViewModel
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class NewsListViewModel (private var repository: NewsRepository,
+class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
                          private val subscriberScheduler: Scheduler = Schedulers.io(),
                          private val observerScheduler: Scheduler = AndroidSchedulers.mainThread()
 )
@@ -74,7 +74,7 @@ class NewsListViewModel (private var repository: NewsRepository,
     ) {
         idlingResource?.increment()
         compositeDisposable.add(
-            repository.getLatestNews(COUNTRY_CODE_US)
+            getNewsUseCase.get(COUNTRY_CODE_US)
                 .subscribeOn(subscriberScheduler)
                 .observeOn(observerScheduler)
                 .subscribe(
@@ -98,11 +98,11 @@ class NewsListViewModel (private var repository: NewsRepository,
 
 }
 
-class NewsListViewModelFactory(private val repo: NewsRepository) :
+class NewsListViewModelFactory(private var getNewsUseCase: GetNewsUseCase) :
     ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>) = NewsListViewModel(
-        repo
+        getNewsUseCase
     ) as T
 }
