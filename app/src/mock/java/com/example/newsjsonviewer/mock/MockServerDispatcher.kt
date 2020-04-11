@@ -16,9 +16,9 @@ internal class MockServerDispatcher(private val appContext: Context) {
         var fail = false
         override fun dispatch(request: RecordedRequest): MockResponse {
 
-            if(fail) return MockResponse().setResponseCode(404)
+            if(fail || request.path == null) return MockResponse().setResponseCode(404)
 
-            if (request.path.contains(GET_LATEST_NEWS_PATH)) {
+            if (request.path!!.contains(GET_LATEST_NEWS_PATH)) {
                 val jsonBody: String = AssetReaderUtil.asset(appContext, "mock_us_news_list.json")
                 return MockResponse().setResponseCode(200).setBody(jsonBody)
             }
@@ -36,7 +36,7 @@ internal class MockServerDispatcher(private val appContext: Context) {
      */
     @Suppress("unused")
     internal inner class ErrorDispatcher : Dispatcher() {
-        override fun dispatch(request: RecordedRequest?): MockResponse {
+        override fun dispatch(request: RecordedRequest): MockResponse {
             return MockResponse().setResponseCode(400)
         }
     }
