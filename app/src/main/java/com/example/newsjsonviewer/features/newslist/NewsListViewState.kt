@@ -9,7 +9,10 @@ sealed class NewsListViewState {
     data class Error(val message: String) : NewsListViewState()
 }
 
-data class NewsListViewStateContent(val newsList: List<NewsListElementViewStateContent>)
+data class NewsListViewStateContent(
+    val newsList: List<NewsListElementViewStateContent>,
+    val countrySelectionPanel: CountrySelectionPanel?
+)
 
 data class NewsListElementViewStateContent(
     val title: String,
@@ -19,3 +22,7 @@ data class NewsListElementViewStateContent(
     val domainObject: News
 )
 
+data class CountrySelectionPanel(
+    val selectedCountry: String,
+    val countryList: List<String>
+)

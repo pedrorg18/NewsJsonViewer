@@ -3,6 +3,7 @@ package com.example.newsjsonviewer.features.newslist
 import android.widget.ImageView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.newsjsonviewer.data.network.COUNTRY_CODE_US
+import com.example.newsjsonviewer.domain.model.Country
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.domain.usecases.GetNewsUseCase
 import io.reactivex.Single
@@ -129,9 +130,7 @@ class NewsListViewModelTest {
         )
 
         // load screen
-        vm.onEvent(NewsListEvent.ScreenLoadEvent)
-        subscriberScheduler.triggerActions()
-        observerScheduler.triggerActions()
+        sendEventAndTriggerActions(NewsListEvent.ScreenLoadEvent)
 
         val mockNews = mockNews(2)
         val mockImageView = mock(ImageView::class.java)
@@ -142,6 +141,30 @@ class NewsListViewModelTest {
         assertEquals(mockNews,
             (vm.viewEffectsLD.value as NewsListViewEffect.LoadDetailsEffect).news)
     }
+
+    @Test
+    fun onChangeCountryClick_showSelectionPanel() {
+        `when`(getNewsUseCase.get(COUNTRY_CODE_US)).thenReturn(
+            Single.just(
+                listOf(
+                    mockNews(1),
+                    mockNews(2)
+                )
+            )
+        )
+
+        // load screen
+        sendEventAndTriggerActions(NewsListEvent.ScreenLoadEvent)
+
+        // click on "change country"
+        sendEventAndTriggerActions(NewsListEvent.ChangeCountryClickEvent)
+
+        // check content state and default country (USA) selected
+        assertTrue(vm.viewStateLD.value is NewsListViewState.Content)
+        assertEquals(Country.Usa.name,
+            (vm.viewStateLD.value as NewsListViewState.Content).content.countrySelectionPanel!!.selectedCountry)
+    }
+
 
 
     private fun mockNews(mockId: Int) =
@@ -154,4 +177,10 @@ class NewsListViewModelTest {
             null,
             null
         )
+
+    private fun sendEventAndTriggerActions(event: NewsListEvent) {
+        vm.onEvent(event)
+        subscriberScheduler.triggerActions()
+        observerScheduler.triggerActions()
+    }
 }

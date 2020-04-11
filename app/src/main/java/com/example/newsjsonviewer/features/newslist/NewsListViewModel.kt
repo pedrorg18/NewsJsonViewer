@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.newsjsonviewer.data.network.COUNTRY_CODE_US
+import com.example.newsjsonviewer.domain.model.Country
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.domain.usecases.GetNewsUseCase
 import com.example.newsjsonviewer.globals.BaseViewModel
@@ -27,12 +28,15 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
             viewStateLD.value = value
         }
 
+    private var selectedCountry = Country.Usa
+
 
     fun onEvent(event: NewsListEvent) {
         when (event) {
             is NewsListEvent.ScreenLoadEvent -> onScreenLoad()
             is NewsListEvent.ScreenReLoadEvent -> onScreenReLoad()
             is NewsListEvent.ElementClickEvent -> onElementClick(event.news, event.imageView)
+            is NewsListEvent.ChangeCountryClickEvent -> onChangeCountryClick()
         }
     }
 
@@ -50,7 +54,7 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
         loadNews(
             { newsList ->
                 currentViewState = NewsListDomainToViewStateMapper()
-                    .map(newsList)
+                    .mapList(newsList)
             },
             { error ->
                 currentViewState = NewsListViewState.Error(error.message!!)
@@ -63,6 +67,16 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
         imageView: ImageView
     ) {
         viewEffectsLD.value = NewsListViewEffect.LoadDetailsEffect(news, imageView)
+    }
+
+    private fun onChangeCountryClick() {
+        currentViewState = NewsListViewState.Content(
+            (currentViewState as NewsListViewState.Content).content.copy(
+                countrySelectionPanel = NewsListDomainToViewStateMapper()
+                    .mapCountryPanel(selectedCountry, Country.all())
+            )
+
+        )
     }
 
     /**
@@ -92,7 +106,8 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
     private fun initialViewState() =
         NewsListViewState.Content(
             NewsListViewStateContent(
-                emptyList()
+                emptyList(),
+                null
             )
         )
 

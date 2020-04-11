@@ -8,4 +8,5 @@ sealed class NewsListEvent {
     object ScreenLoadEvent : NewsListEvent()
     data class ElementClickEvent(val news: News, val imageView: ImageView) : NewsListEvent()
     object ScreenReLoadEvent : NewsListEvent()
+    object ChangeCountryClickEvent : NewsListEvent()
 }
