@@ -5,9 +5,10 @@ import com.example.newsjsonviewer.domain.model.News
 
 class NewsListDomainToViewStateMapper {
 
-    fun mapList(domainList: List<News>) =
+    fun mapList(domainList: List<News>, selectedCountry: Country) =
         NewsListViewState.Content(
             NewsListViewStateContent(
+                pageTitle(selectedCountry),
                 domainList.map {
                     NewsListElementViewStateContent(
                         it.title,
@@ -19,6 +20,9 @@ class NewsListDomainToViewStateMapper {
                 null
             )
         )
+
+    private fun pageTitle(selectedCountry: Country) =
+        "${selectedCountry.name} news"
 
     fun mapCountryPanel(
         selectedCountry: Country,

@@ -10,6 +10,7 @@ sealed class NewsListViewState {
 }
 
 data class NewsListViewStateContent(
+    val pageTitle: String,
     val newsList: List<NewsListElementViewStateContent>,
     val countrySelectionPanel: CountrySelectionPanel?
 )

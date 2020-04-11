@@ -4,7 +4,6 @@ import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.newsjsonviewer.data.network.COUNTRY_CODE_US
 import com.example.newsjsonviewer.domain.model.Country
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.domain.usecases.GetNewsUseCase
@@ -12,6 +11,7 @@ import com.example.newsjsonviewer.globals.BaseViewModel
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.lang.IllegalArgumentException
 
 class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
                          private val subscriberScheduler: Scheduler = Schedulers.io(),
@@ -28,7 +28,7 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
             viewStateLD.value = value
         }
 
-    private var selectedCountry = Country.Usa
+    private var selectedCountry: Country = Country.Usa
 
 
     fun onEvent(event: NewsListEvent) {
@@ -37,6 +37,7 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
             is NewsListEvent.ScreenReLoadEvent -> onScreenReLoad()
             is NewsListEvent.ElementClickEvent -> onElementClick(event.news, event.imageView)
             is NewsListEvent.ChangeCountryClickEvent -> onChangeCountryClick()
+            is NewsListEvent.DoChangeCountryEvent -> onDoChangeCountry(event.country)
         }
     }
 
@@ -46,20 +47,6 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
 
     private fun onScreenReLoad() {
         doLoadNews()
-    }
-
-    private fun doLoadNews() {
-        currentViewState = NewsListViewState.Loading
-
-        loadNews(
-            { newsList ->
-                currentViewState = NewsListDomainToViewStateMapper()
-                    .mapList(newsList)
-            },
-            { error ->
-                currentViewState = NewsListViewState.Error(error.message!!)
-            }
-        )
     }
 
     private fun onElementClick(
@@ -79,8 +66,29 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
         )
     }
 
+    private fun onDoChangeCountry(countryName: String) {
+        selectedCountry = Country.all().find {
+            it.name == countryName
+        } ?: throw IllegalArgumentException("Invalid country name $countryName")
+        doLoadNews()
+    }
+
+    private fun doLoadNews() {
+        currentViewState = NewsListViewState.Loading
+
+        loadNews(
+            { newsList ->
+                currentViewState = NewsListDomainToViewStateMapper()
+                    .mapList(newsList, selectedCountry)
+            },
+            { error ->
+                currentViewState = NewsListViewState.Error(error.message!!)
+            }
+        )
+    }
+
     /**
-     * Loads general news from the US
+     * Loads general news from the selected country
      */
     private fun loadNews(
         successFunction: (List<News>) -> Unit,
@@ -88,7 +96,7 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
     ) {
         idlingResource?.increment()
         compositeDisposable.add(
-            getNewsUseCase.get(COUNTRY_CODE_US)
+            getNewsUseCase.get(selectedCountry)
                 .subscribeOn(subscriberScheduler)
                 .observeOn(observerScheduler)
                 .subscribe(
@@ -106,6 +114,7 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
     private fun initialViewState() =
         NewsListViewState.Content(
             NewsListViewStateContent(
+                "",
                 emptyList(),
                 null
             )

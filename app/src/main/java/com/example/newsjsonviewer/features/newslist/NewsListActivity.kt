@@ -2,6 +2,9 @@ package com.example.newsjsonviewer.features.newslist
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
@@ -41,8 +44,6 @@ class NewsListActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_list)
 
-        title = "Us news"
-
         initRecyclerView()
 
         initListeners()
@@ -66,16 +67,30 @@ class NewsListActivity : BaseActivity() {
     }
 
     private fun renderLoading() {
+        rvNewsList.hide()
         startShimmer()
     }
 
     private fun renderContent(viewState: NewsListViewStateContent) {
+        rvNewsList.show()
         stopShimmer()
         swipeRefresh.isRefreshing = false
+        title = viewState.pageTitle
         adapter.items = viewState.newsList
+        renderCountryPanel(viewState.countrySelectionPanel)
+    }
+
+    private fun renderCountryPanel(countrySelectionPanel: CountrySelectionPanel?) {
+        countrySelectionPanel?.let {
+            val dialog = CountryListDialogFragment(it.countryList) { selectedCountry ->
+                viewModel.onEvent(NewsListEvent.DoChangeCountryEvent(selectedCountry))
+            }
+            dialog.show(supportFragmentManager, "CountryDialogFragment")
+        }
     }
 
     private fun renderError(message: String) {
+        rvNewsList.show()
         stopShimmer()
         swipeRefresh.isRefreshing = false
         Toast.makeText(this@NewsListActivity, "There was an error: $message", Toast.LENGTH_LONG).show()
@@ -113,6 +128,22 @@ class NewsListActivity : BaseActivity() {
             adapter.items = emptyList()
             adapter.notifyDataSetChanged()
             viewModel.onEvent(NewsListEvent.ScreenReLoadEvent)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.news_list_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_change_country -> {
+                viewModel.onEvent(NewsListEvent.ChangeCountryClickEvent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

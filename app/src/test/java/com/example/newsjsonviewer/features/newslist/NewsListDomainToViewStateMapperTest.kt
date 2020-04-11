@@ -9,12 +9,12 @@ class NewsListDomainToViewStateMapperTest {
     @Test
     fun mapCountryPanel_hasRightSelectedCountryAndOrderedList() {
         val mapper = NewsListDomainToViewStateMapper()
-        val panel = mapper.mapCountryPanel(Country.Spain,
-            listOf(Country.Spain, Country.France, Country.Usa))
+        val panel = mapper.mapCountryPanel(Country.Australia,
+            listOf(Country.France, Country.Australia, Country.Usa))
 
-        assertEquals(Country.Spain.name, panel.selectedCountry)
+        assertEquals(Country.Australia.name, panel.selectedCountry)
 
         // should get country names ordered alphabetically
-        assertEquals(listOf(Country.France.name, Country.Spain.name, Country.Usa.name), panel.countryList)
+        assertEquals(listOf(Country.Australia.name, Country.France.name, Country.Usa.name), panel.countryList)
     }
 }

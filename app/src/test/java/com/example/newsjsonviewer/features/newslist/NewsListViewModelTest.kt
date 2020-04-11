@@ -2,10 +2,10 @@ package com.example.newsjsonviewer.features.newslist
 
 import android.widget.ImageView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.newsjsonviewer.data.network.COUNTRY_CODE_US
 import com.example.newsjsonviewer.domain.model.Country
 import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.domain.usecases.GetNewsUseCase
+import com.example.newsjsonviewer.testutils.anyObject
 import io.reactivex.Single
 import io.reactivex.schedulers.TestScheduler
 import org.junit.Assert.assertEquals
@@ -39,7 +39,7 @@ class NewsListViewModelTest {
     @Test
     fun onEventScreenLoad_dataIsDisplayed() {
 
-        `when`(getNewsUseCase.get(COUNTRY_CODE_US)).thenReturn(
+        `when`(getNewsUseCase.get(anyObject())).thenReturn(
             Single.just(
                 listOf(
                     mockNews(1),
@@ -57,7 +57,7 @@ class NewsListViewModelTest {
         observerScheduler.triggerActions()
 
         // check get use case was called
-        verify(getNewsUseCase, times(1)).get(COUNTRY_CODE_US)
+        verify(getNewsUseCase, times(1)).get(anyObject())
 
         // check state content and value is expected
         assertTrue(vm.viewStateLD.value is NewsListViewState.Content)
@@ -67,7 +67,7 @@ class NewsListViewModelTest {
 
     @Test
     fun onEventScreenLoad_errorIsDisplayed() {
-        `when`(getNewsUseCase.get(COUNTRY_CODE_US)).thenReturn(
+        `when`(getNewsUseCase.get(anyObject())).thenReturn(
             Single.error(
                 RuntimeException("Test error")
             )
@@ -82,7 +82,7 @@ class NewsListViewModelTest {
         observerScheduler.triggerActions()
 
         // check get use case was called
-        verify(getNewsUseCase, times(1)).get(COUNTRY_CODE_US)
+        verify(getNewsUseCase, times(1)).get(anyObject())
 
         // check state content and value is expected
         assertTrue(vm.viewStateLD.value is NewsListViewState.Error)
@@ -92,7 +92,7 @@ class NewsListViewModelTest {
 
     @Test
     fun onEventScreenReload_dataIsDisplayed() {
-        `when`(getNewsUseCase.get(COUNTRY_CODE_US)).thenReturn(
+        `when`(getNewsUseCase.get(anyObject())).thenReturn(
             Single.just(
                 listOf(
                     mockNews(1),
@@ -110,7 +110,7 @@ class NewsListViewModelTest {
         observerScheduler.triggerActions()
 
         // check get use case was called
-        verify(getNewsUseCase, times(1)).get(COUNTRY_CODE_US)
+        verify(getNewsUseCase, times(1)).get(anyObject())
 
         // check state content and value is expected
         assertTrue(vm.viewStateLD.value is NewsListViewState.Content)
@@ -120,7 +120,7 @@ class NewsListViewModelTest {
 
     @Test
     fun onEventElementClick_goToDetailsEffectIsSent() {
-        `when`(getNewsUseCase.get(COUNTRY_CODE_US)).thenReturn(
+        `when`(getNewsUseCase.get(anyObject())).thenReturn(
             Single.just(
                 listOf(
                     mockNews(1),
@@ -144,7 +144,7 @@ class NewsListViewModelTest {
 
     @Test
     fun onChangeCountryClick_showSelectionPanel() {
-        `when`(getNewsUseCase.get(COUNTRY_CODE_US)).thenReturn(
+        `when`(getNewsUseCase.get(anyObject())).thenReturn(
             Single.just(
                 listOf(
                     mockNews(1),
