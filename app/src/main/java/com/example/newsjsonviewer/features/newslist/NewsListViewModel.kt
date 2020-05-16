@@ -94,7 +94,7 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
         successFunction: (List<News>) -> Unit,
         errorFunction: (Throwable) -> Unit
     ) {
-        idlingResource?.increment()
+        incrementIdlingResource()
         compositeDisposable.add(
             getNewsUseCase.get(selectedCountry)
                 .subscribeOn(subscriberScheduler)
@@ -102,11 +102,11 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
                 .subscribe(
                     {
                         successFunction(it)
-                        idlingResource?.decrement()
+                        decrementIdlingResource()
                     },
                     {
                         errorFunction(it)
-                        idlingResource?.decrement()
+                        decrementIdlingResource()
                     })
         )
     }

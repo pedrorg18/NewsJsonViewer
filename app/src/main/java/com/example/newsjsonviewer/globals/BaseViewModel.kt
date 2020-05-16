@@ -7,11 +7,19 @@ import io.reactivex.disposables.CompositeDisposable
 open class BaseViewModel : ViewModel() {
 
     protected val compositeDisposable = CompositeDisposable()
-    protected var idlingResource: CountingIdlingResource? = null
+    private var idlingResource: CountingIdlingResource? = null
 
 
     fun initIdlingResource(idlingResource: CountingIdlingResource?) {
         this.idlingResource = idlingResource
+    }
+
+    protected fun incrementIdlingResource() {
+        idlingResource?.increment()
+    }
+
+    protected fun decrementIdlingResource() {
+        idlingResource?.decrement()
     }
 
     override fun onCleared() {
