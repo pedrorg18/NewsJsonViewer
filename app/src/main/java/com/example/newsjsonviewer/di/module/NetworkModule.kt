@@ -9,8 +9,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
+
+const val backendBaseUrlKey = "backendBaseUrlKey"
 
 @Module
 class NetworkModule {
@@ -18,13 +21,20 @@ class NetworkModule {
     private val requestTimeout = 60
 
     @Provides
+    @Named(backendBaseUrlKey)
+    fun provideBackendBaseUrl() = BASE_URL
+
+    @Provides
     @Singleton
-    fun getRetrofit(client: OkHttpClient): Retrofit =
+    fun getRetrofit(
+        client: OkHttpClient,
+        @Named(backendBaseUrlKey) baseUrl: String
+    ): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .build()
 
     @Provides
