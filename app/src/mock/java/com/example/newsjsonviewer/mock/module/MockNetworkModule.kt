@@ -1,6 +1,5 @@
-package com.example.newsjsonviewer.di
+package com.example.newsjsonviewer.mock.module
 
-import com.example.newsjsonviewer.data.network.BASE_URL
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -11,29 +10,29 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-
 @Module
-class NetworkModule {
+class MockNetworkModule {
 
-    private val requestTimeout = 60
+    private val REQUEST_TIMEOUT = 60
+
 
     @Provides
     @Singleton
-    fun getRetrofit(client: OkHttpClient): Retrofit =
+    fun getRetrofit(client: OkHttpClient) =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .baseUrl(BASE_URL)
+            .baseUrl("http://localhost:8081/")
             .build()
 
     @Provides
     @Singleton
     fun getOkHttpClient(): OkHttpClient {
         val httpClient = OkHttpClient().newBuilder()
-            .connectTimeout(requestTimeout.toLong(), TimeUnit.SECONDS)
-            .readTimeout(requestTimeout.toLong(), TimeUnit.SECONDS)
-            .writeTimeout(requestTimeout.toLong(), TimeUnit.SECONDS)
+            .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .readTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .writeTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY

@@ -23,8 +23,11 @@ class NewsMockApplication : NewsApplication() {
     override fun getComponent(): IAppComponent {
         if(applicationComponent == null)
             applicationComponent = DaggerMockApplicationComponent.builder()
-                .mockApplicationModule(MockApplicationModule(this))
-                .mockNetworkModule(MockNetworkModule())
+//                .mockApplicationModule(
+//                    MockApplicationModule(
+//                        this
+//                    )
+//                )
                 .build()
 
         return applicationComponent!!

@@ -2,10 +2,10 @@ package com.example.newsjsonviewer.globals
 
 import android.annotation.SuppressLint
 import android.app.Application
-import com.example.newsjsonviewer.di.ApplicationModule
+import com.example.newsjsonviewer.di.module.ApplicationModule
 import com.example.newsjsonviewer.di.DaggerApplicationComponent
 import com.example.newsjsonviewer.di.IAppComponent
-import com.example.newsjsonviewer.di.NetworkModule
+import com.example.newsjsonviewer.di.module.NetworkModule
 
 // In fact it's registered in the manifest. Warning caused because there is a mock subclass
 @SuppressLint("Registered")
@@ -16,8 +16,7 @@ open class NewsApplication : Application() {
     open fun getComponent(): IAppComponent {
         if(applicationComponent == null)
             applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(ApplicationModule())
-                .networkModule(NetworkModule())
+//                .applicationModule(ApplicationModule(this))
                 .build()
 
         return applicationComponent!!
