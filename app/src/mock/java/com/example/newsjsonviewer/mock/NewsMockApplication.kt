@@ -10,7 +10,7 @@ import okhttp3.mockwebserver.MockWebServer
 import java.net.InetAddress
 
 @SuppressLint("Registered")
-class NewsMockApplication : NewsApplication() {
+open class NewsMockApplication : NewsApplication() {
 
 
     private lateinit var webServer: MockWebServer
