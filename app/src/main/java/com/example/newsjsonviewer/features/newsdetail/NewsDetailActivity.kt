@@ -2,6 +2,7 @@ package com.example.newsjsonviewer.features.newsdetail
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Observer
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -99,5 +100,8 @@ class NewsDetailActivity : BaseActivity() {
             onBackPressed()
         }
     }
+
+    @VisibleForTesting
+    override fun getIdlingResource() = viewModel.getIdlingResource()
 
 }

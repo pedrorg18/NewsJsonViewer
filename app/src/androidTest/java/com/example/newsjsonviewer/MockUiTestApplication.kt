@@ -12,11 +12,12 @@ class MockUiTestApplication : NewsMockApplication() {
 
     private var mockAppComponent: MockUiTestApplicationComponent? = null
 
-    fun getTestComponent(): MockUiTestApplicationComponent {
+    override fun getComponent(): MockUiTestApplicationComponent {
         if(mockAppComponent == null)
             mockAppComponent = DaggerMockUiTestApplicationComponent.builder()
                 .build()
 
         return mockAppComponent!!
     }
+
 }

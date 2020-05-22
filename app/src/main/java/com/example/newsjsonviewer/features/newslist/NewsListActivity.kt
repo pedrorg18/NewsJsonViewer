@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.VisibleForTesting
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
@@ -32,13 +33,8 @@ class NewsListActivity : BaseActivity() {
     @Inject
     protected lateinit var getNewsUseCase: GetNewsUseCase
 
-    private fun initViewModel(): NewsListViewModel {
-        val vm = NewsListViewModelFactory(getNewsUseCase)
-            .create(NewsListViewModel::class.java)
-
-        vm.initIdlingResource(idlingResource)
-        return vm
-    }
+    private fun initViewModel(): NewsListViewModel =
+        NewsListViewModelFactory(getNewsUseCase).create(NewsListViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -156,5 +152,8 @@ class NewsListActivity : BaseActivity() {
         shimmerViewContainer.stopShimmer()
         shimmerViewContainer.hide()
     }
+
+    @VisibleForTesting
+    override fun getIdlingResource() = viewModel.getIdlingResource()
 
 }

@@ -1,10 +1,14 @@
 package com.example.newsjsonviewer.mock.module
 
+import android.os.SystemClock
+import android.util.Log
 import com.example.newsjsonviewer.di.module.backendBaseUrlKey
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -44,6 +48,18 @@ class MockNetworkModule {
             .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .readTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .writeTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
+        // Uncomment to add delay to HTTP calls, for example to test Espresso against flakiness
+//            .addInterceptor { chain ->
+//                val request: Request = chain.request()
+//                var response: Response? = null
+//                try {
+//                    SystemClock.sleep(10000)
+//                    response = chain.proceed(request)
+//                } catch (e: Exception) {
+//                    Log.e("intercept", "Request is not successful")
+//                }
+//                response!!
+//            }
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY

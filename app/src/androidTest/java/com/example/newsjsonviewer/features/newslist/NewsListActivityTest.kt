@@ -5,11 +5,13 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import com.example.newsjsonviewer.MockUiTestApplication
 import com.example.newsjsonviewer.R
 import com.example.newsjsonviewer.utils.childAtPosition
 import com.example.newsjsonviewer.utils.recyclerViewAtPositionOnView
@@ -27,14 +29,16 @@ import org.junit.runner.RunWith
 class NewsListActivityTest {
 
     lateinit var scenario: ActivityScenario<NewsListActivity>
-
+    private lateinit var idlingResource: IdlingResource
 
     @Before
     @Throws(Exception::class)
     fun setup() {
         scenario = ActivityScenario.launch(NewsListActivity::class.java)
         scenario.onActivity {
-            val idlingResource = it.idlingResource()!!
+            (it.application as MockUiTestApplication).getComponent().inject(this)
+
+            idlingResource = it.getIdlingResource()!!
             IdlingRegistry.getInstance().register(idlingResource)
         }
     }
@@ -43,6 +47,7 @@ class NewsListActivityTest {
     @Throws(java.lang.Exception::class)
     fun tearDown() {
         scenario.close()
+        IdlingRegistry.getInstance().unregister(idlingResource)
     }
 
     @Test
