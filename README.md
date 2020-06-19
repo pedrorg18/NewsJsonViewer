@@ -6,6 +6,7 @@ Its main goals are to show an architecture as well as show some technologies in 
 ## Architecture - Design patterns - Methodologies
 - MVI
 - Passive View
+- Clean architecture
 
 ## Testing
 - Heavy use of unit tests
