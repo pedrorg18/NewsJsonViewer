@@ -9,9 +9,9 @@ import com.example.newsjsonviewer.domain.model.News
 import com.example.newsjsonviewer.domain.usecases.GetNewsUseCase
 import com.example.newsjsonviewer.globals.BaseViewModel
 import io.reactivex.Scheduler
+import io.reactivex.SingleTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.lang.IllegalArgumentException
 
 class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
                          private val subscriberScheduler: Scheduler = Schedulers.io(),
@@ -97,8 +97,7 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
         incrementIdlingResource()
         compositeDisposable.add(
             getNewsUseCase.get(selectedCountry)
-                .subscribeOn(subscriberScheduler)
-                .observeOn(observerScheduler)
+                .compose(applySchedulers())
                 .subscribe(
                     {
                         successFunction(it)
@@ -119,6 +118,12 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
                 null
             )
         )
+
+    private fun <T> applySchedulers() = SingleTransformer<T, T> {
+        it
+            .subscribeOn(subscriberScheduler)
+            .observeOn(observerScheduler)
+    }
 
 }
 
