@@ -1,7 +1,7 @@
 package com.example.newsjsonviewer.di.module
 
-import com.example.newsjsonviewer.data.datasource.NewsDataSource
-import com.example.newsjsonviewer.data.datasource.NewsDataSourceImpl
+import com.example.newsjsonviewer.data.datasource.NewsRemoteDataSource
+import com.example.newsjsonviewer.data.network.NewsRemoteDataSourceImpl
 import com.example.newsjsonviewer.data.network.NetworkManager
 import dagger.Module
 import dagger.Provides
@@ -12,8 +12,8 @@ class DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideNewsDataSource(networkManager: NetworkManager): NewsDataSource =
-        NewsDataSourceImpl(
+    fun provideNewsRemoteDataSource(networkManager: NetworkManager): NewsRemoteDataSource =
+        NewsRemoteDataSourceImpl(
             networkManager
         )
 }
