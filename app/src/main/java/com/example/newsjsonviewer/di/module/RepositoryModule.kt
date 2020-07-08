@@ -1,5 +1,6 @@
 package com.example.newsjsonviewer.di.module
 
+import com.example.newsjsonviewer.data.datasource.NewsDbDataSource
 import com.example.newsjsonviewer.data.datasource.NewsRemoteDataSource
 import com.example.newsjsonviewer.data.repository.NewsRepositoryImpl
 import com.example.newsjsonviewer.domain.repository.NewsRepository
@@ -12,6 +13,8 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesNewsRepository(remoteDataSource: NewsRemoteDataSource): NewsRepository =
-        NewsRepositoryImpl(remoteDataSource)
+    fun providesNewsRepository(
+        remoteDataSource: NewsRemoteDataSource,
+        newsDbDataSource: NewsDbDataSource): NewsRepository =
+            NewsRepositoryImpl(remoteDataSource, newsDbDataSource)
 }

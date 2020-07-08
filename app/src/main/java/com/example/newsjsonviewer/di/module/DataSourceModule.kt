@@ -1,5 +1,7 @@
 package com.example.newsjsonviewer.di.module
 
+import com.example.newsjsonviewer.data.database.NewsDbDataSourceImpl
+import com.example.newsjsonviewer.data.datasource.NewsDbDataSource
 import com.example.newsjsonviewer.data.datasource.NewsRemoteDataSource
 import com.example.newsjsonviewer.data.network.NewsRemoteDataSourceImpl
 import com.example.newsjsonviewer.data.network.NetworkManager
@@ -16,4 +18,9 @@ class DataSourceModule {
         NewsRemoteDataSourceImpl(
             networkManager
         )
+
+    @Provides
+    @Singleton
+    fun provideNewsDbDataSource(): NewsDbDataSource =
+        NewsDbDataSourceImpl()
 }
