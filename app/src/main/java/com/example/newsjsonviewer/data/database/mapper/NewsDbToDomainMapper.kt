@@ -18,4 +18,18 @@ class NewsDbToDomainMapper {
                 content
             )
         }
+
+    fun mapToDb(domainNews: News, country: String? = null) =
+        with(domainNews) {
+            DbNews(
+                title,
+                description,
+                imageUrl,
+                author,
+                source,
+                publishedAt?.time,
+                content,
+                country
+            )
+        }
 }

@@ -2,6 +2,7 @@ package com.example.newsjsonviewer.data.datasource
 
 import com.example.newsjsonviewer.domain.model.Country
 import com.example.newsjsonviewer.domain.model.News
+import io.reactivex.Completable
 import io.reactivex.Single
 
 interface NewsDbDataSource {
@@ -17,5 +18,8 @@ interface NewsDbDataSource {
         cachedNewsExpirationTime: Long
     ): Single<List<News>>
 
-    fun saveNewsToCache(country: Country, news: List<News>)
+    /**
+     * Saves news into database associated to the search criteria to fetch them (the country)
+     */
+    fun saveNewsToCache(country: Country, news: List<News>): Completable
 }

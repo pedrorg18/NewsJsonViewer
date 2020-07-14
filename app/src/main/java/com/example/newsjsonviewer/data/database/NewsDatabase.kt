@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.newsjsonviewer.data.database.dao.CachedNewsDao
-import com.example.newsjsonviewer.data.database.dao.NewsDao
 import com.example.newsjsonviewer.data.database.model.CachedNews
 import com.example.newsjsonviewer.data.database.model.DbNews
 import javax.inject.Singleton
@@ -18,7 +17,6 @@ import javax.inject.Singleton
 abstract class NewsDatabase : RoomDatabase() {
 
     abstract fun cachedNewsDao(): CachedNewsDao
-    abstract fun newsDao(): NewsDao
 
     companion object {
         private var INSTANCE: NewsDatabase? = null

@@ -6,10 +6,13 @@ import com.example.newsjsonviewer.domain.model.Country
 import com.example.newsjsonviewer.test.factory.randomLong
 import com.example.newsjsonviewer.test.mock.createCachedNews
 import com.example.newsjsonviewer.test.mock.createRandomDbNews
+import com.example.newsjsonviewer.test.mock.generateMockDomainNewsListUs
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Maybe
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 class NewsDbDataSourceImplTest {
@@ -18,24 +21,30 @@ class NewsDbDataSourceImplTest {
     private val mockDb = mock<NewsDatabase>()
     private val dbDataSource = NewsDbDataSourceImpl(mockDb)
 
+    @Before
+    fun setup() {
+        whenever(mockDb.cachedNewsDao())
+            .thenReturn(mockCachedNewsDao)
+    }
+
     @Test
     fun getCachedNewsNoCache_completes() {
         val country = Country.Usa
-        stubDatabase(country.name, Maybe.empty<CachedNewsDao.CachedNewsAndDbNews>())
+        stubDatabaseFindNews(country.name, Maybe.empty<CachedNewsDao.CachedNewsAndDbNews>())
         dbDataSource.getCachedNews(country, randomLong()).test().assertComplete()
     }
 
     @Test
     fun getCachedNewsNoCache_returnsEmptyList() {
         val country = Country.Usa
-        stubDatabase(country.name, Maybe.empty<CachedNewsDao.CachedNewsAndDbNews>())
+        stubDatabaseFindNews(country.name, Maybe.empty<CachedNewsDao.CachedNewsAndDbNews>())
         dbDataSource.getCachedNews(country, randomLong()).test().assertValue(emptyList())
     }
 
     @Test
     fun getCachedNewsExpired_returnsEmptyList() {
         val country = Country.Usa
-        stubDatabase(country.name, Maybe.just(
+        stubDatabaseFindNews(country.name, Maybe.just(
             CachedNewsDao.CachedNewsAndDbNews().apply {
                 // set expiration time current time - expiration time
                 cachedNews = createCachedNews(
@@ -59,7 +68,7 @@ class NewsDbDataSourceImplTest {
     @Test
     fun getCachedNewsNonExpired_returnsData() {
         val country = Country.Usa
-        stubDatabase(country.name, Maybe.just(
+        stubDatabaseFindNews(country.name, Maybe.just(
             CachedNewsDao.CachedNewsAndDbNews().apply {
                 // set expiration time current time - 1 second
                 cachedNews = createCachedNews(country, System.currentTimeMillis() - 1000)
@@ -77,17 +86,32 @@ class NewsDbDataSourceImplTest {
         )
     }
 
-
     @Test
-    fun saveNewsToCache() {
+    fun saveNewsToCache_completes() {
+        val country = Country.Usa
+        val news = generateMockDomainNewsListUs()
+        // insert returns success
+        stubDatabaseInsertNews(true)
+        dbDataSource.saveNewsToCache(country, news).test().assertComplete()
     }
 
-    private fun stubDatabase(country: String, result: Maybe<CachedNewsDao.CachedNewsAndDbNews>) {
-        whenever(mockDb.cachedNewsDao())
-            .thenReturn(mockCachedNewsDao)
+    @Test
+    fun saveNewsToCache_fails() {
+        val country = Country.Usa
+        val news = generateMockDomainNewsListUs()
+        // insert returns NO success
+        stubDatabaseInsertNews(false)
+        dbDataSource.saveNewsToCache(country, news).test().assertError(RuntimeException::class.java)
+    }
+
+    private fun stubDatabaseFindNews(country: String, result: Maybe<CachedNewsDao.CachedNewsAndDbNews>) {
         whenever(mockCachedNewsDao.findCachedNewsAndDbNewsByCountry(country))
             .thenReturn(result)
     }
 
+    private fun stubDatabaseInsertNews(result: Boolean) {
+        whenever(mockCachedNewsDao.insertCachedNewsAndNewsList(any(), any()))
+            .thenReturn(result)
+    }
 
 }
