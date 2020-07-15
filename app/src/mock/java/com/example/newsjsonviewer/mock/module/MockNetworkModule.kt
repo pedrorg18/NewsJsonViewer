@@ -1,14 +1,13 @@
 package com.example.newsjsonviewer.mock.module
 
-import android.os.SystemClock
-import android.util.Log
+import com.example.newsjsonviewer.data.datasource.NewsRemoteDataSource
+import com.example.newsjsonviewer.data.network.NetworkManager
+import com.example.newsjsonviewer.data.network.NewsRemoteDataSourceImpl
 import com.example.newsjsonviewer.di.module.backendBaseUrlKey
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,6 +26,13 @@ class MockNetworkModule {
     @Provides
     @Named(backendBaseUrlKey)
     fun provideBackendBaseUrl() = mockWebServerBaseUrl
+
+    @Provides
+    @Singleton
+    fun provideNewsRemoteDataSource(networkManager: NetworkManager): NewsRemoteDataSource =
+        NewsRemoteDataSourceImpl(
+            networkManager
+        )
 
     @Provides
     @Singleton

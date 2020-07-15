@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.example.newsjsonviewer.di.IAppComponent
 import com.example.newsjsonviewer.globals.NewsApplication
+import com.example.newsjsonviewer.mock.module.MockApplicationModule
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.mockwebserver.MockWebServer
@@ -23,11 +24,9 @@ open class NewsMockApplication : NewsApplication() {
     override fun getComponent(): IAppComponent {
         if(applicationComponent == null)
             applicationComponent = DaggerMockApplicationComponent.builder()
-//                .mockApplicationModule(
-//                    MockApplicationModule(
-//                        this
-//                    )
-//                )
+                .mockApplicationModule(
+                    MockApplicationModule(this)
+                )
                 .build()
 
         return applicationComponent!!

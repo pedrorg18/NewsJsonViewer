@@ -1,6 +1,9 @@
 package com.example.newsjsonviewer.di.module
 
+import com.example.newsjsonviewer.data.datasource.NewsRemoteDataSource
 import com.example.newsjsonviewer.data.network.BASE_URL
+import com.example.newsjsonviewer.data.network.NetworkManager
+import com.example.newsjsonviewer.data.network.NewsRemoteDataSourceImpl
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -19,6 +22,13 @@ const val backendBaseUrlKey = "backendBaseUrlKey"
 class NetworkModule {
 
     private val requestTimeout = 60
+
+    @Provides
+    @Singleton
+    fun provideNewsRemoteDataSource(networkManager: NetworkManager): NewsRemoteDataSource =
+        NewsRemoteDataSourceImpl(
+            networkManager
+        )
 
     @Provides
     @Named(backendBaseUrlKey)

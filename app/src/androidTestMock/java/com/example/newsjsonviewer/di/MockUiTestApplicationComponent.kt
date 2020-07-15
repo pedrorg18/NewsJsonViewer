@@ -1,8 +1,9 @@
 package com.example.newsjsonviewer.di
 
-import com.example.newsjsonviewer.di.module.DataSourceModule
 import com.example.newsjsonviewer.di.module.RepositoryModule
 import com.example.newsjsonviewer.features.newslist.NewsListActivityTest
+import com.example.newsjsonviewer.mock.module.MockApplicationModule
+import com.example.newsjsonviewer.mock.module.MockDatabaseModule
 import com.example.newsjsonviewer.mock.module.MockNetworkModule
 import dagger.Component
 import javax.inject.Singleton
@@ -13,8 +14,9 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
+        MockApplicationModule::class,
         MockNetworkModule::class,
-        DataSourceModule::class,
+        MockDatabaseModule::class,
         RepositoryModule::class
     ]
 )

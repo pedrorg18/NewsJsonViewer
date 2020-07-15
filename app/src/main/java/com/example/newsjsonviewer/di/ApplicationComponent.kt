@@ -1,9 +1,6 @@
 package com.example.newsjsonviewer.di
 
-import com.example.newsjsonviewer.di.module.ApplicationModule
-import com.example.newsjsonviewer.di.module.DataSourceModule
-import com.example.newsjsonviewer.di.module.NetworkModule
-import com.example.newsjsonviewer.di.module.RepositoryModule
+import com.example.newsjsonviewer.di.module.*
 import dagger.Component
 import javax.inject.Singleton
 
@@ -11,7 +8,7 @@ import javax.inject.Singleton
     modules = [
         ApplicationModule::class,
         NetworkModule::class,
-        DataSourceModule::class,
+        DatabaseModule::class,
         RepositoryModule::class
     ]
 )
