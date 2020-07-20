@@ -20,5 +20,6 @@ Its main goals are to show an architecture as well as show some technologies in 
 - Android Jetpack:
   - ViewModel
   - Livedata
+- Room database
 - Facebook Shimmer (to add shimmer effect to a placeholder view)
 - Glide (to load remote images)
