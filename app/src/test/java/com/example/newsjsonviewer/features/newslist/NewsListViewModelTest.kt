@@ -39,7 +39,7 @@ class NewsListViewModelTest {
     @Test
     fun onEventScreenLoad_dataIsDisplayed() {
 
-        `when`(getNewsUseCase.get(anyObject())).thenReturn(
+        `when`(getNewsUseCase.get(anyObject(), cache = eq(true))).thenReturn(
             Single.just(
                 listOf(
                     mockNews(1),
@@ -57,7 +57,7 @@ class NewsListViewModelTest {
         observerScheduler.triggerActions()
 
         // check get use case was called
-        verify(getNewsUseCase, times(1)).get(anyObject())
+        verify(getNewsUseCase, times(1)).get(anyObject(), cache = eq(true))
 
         // check state content and value is expected
         assertTrue(vm.viewStateLD.value is NewsListViewState.Content)
@@ -67,7 +67,7 @@ class NewsListViewModelTest {
 
     @Test
     fun onEventScreenLoad_errorIsDisplayed() {
-        `when`(getNewsUseCase.get(anyObject())).thenReturn(
+        `when`(getNewsUseCase.get(anyObject(), cache = eq(true))).thenReturn(
             Single.error(
                 RuntimeException("Test error")
             )
@@ -82,7 +82,7 @@ class NewsListViewModelTest {
         observerScheduler.triggerActions()
 
         // check get use case was called
-        verify(getNewsUseCase, times(1)).get(anyObject())
+        verify(getNewsUseCase, times(1)).get(anyObject(), cache = eq(true))
 
         // check state content and value is expected
         assertTrue(vm.viewStateLD.value is NewsListViewState.Error)
@@ -92,7 +92,7 @@ class NewsListViewModelTest {
 
     @Test
     fun onEventScreenReload_dataIsDisplayed() {
-        `when`(getNewsUseCase.get(anyObject())).thenReturn(
+        `when`(getNewsUseCase.get(anyObject(), cache = eq(true))).thenReturn(
             Single.just(
                 listOf(
                     mockNews(1),
@@ -110,7 +110,7 @@ class NewsListViewModelTest {
         observerScheduler.triggerActions()
 
         // check get use case was called
-        verify(getNewsUseCase, times(1)).get(anyObject())
+        verify(getNewsUseCase, times(1)).get(anyObject(), cache = eq(true))
 
         // check state content and value is expected
         assertTrue(vm.viewStateLD.value is NewsListViewState.Content)
@@ -120,7 +120,7 @@ class NewsListViewModelTest {
 
     @Test
     fun onEventElementClick_goToDetailsEffectIsSent() {
-        `when`(getNewsUseCase.get(anyObject())).thenReturn(
+        `when`(getNewsUseCase.get(anyObject(), cache = eq(true))).thenReturn(
             Single.just(
                 listOf(
                     mockNews(1),
@@ -144,7 +144,7 @@ class NewsListViewModelTest {
 
     @Test
     fun onChangeCountryClick_showSelectionPanel() {
-        `when`(getNewsUseCase.get(anyObject())).thenReturn(
+        `when`(getNewsUseCase.get(anyObject(), cache = eq(true))).thenReturn(
             Single.just(
                 listOf(
                     mockNews(1),

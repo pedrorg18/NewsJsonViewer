@@ -5,5 +5,5 @@ import com.example.newsjsonviewer.domain.repository.NewsRepository
 import javax.inject.Inject
 
 class GetNewsUseCase @Inject constructor (private var repository: NewsRepository) {
-    fun get(country: Country) = repository.getLatestNews(country)
+    fun get(country: Country, cache: Boolean) = repository.getLatestNews(country, cache)
 }

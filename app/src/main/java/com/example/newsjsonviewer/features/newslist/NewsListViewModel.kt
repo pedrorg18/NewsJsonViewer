@@ -42,11 +42,11 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
     }
 
     private fun onScreenLoad() {
-        doLoadNews()
+        doLoadNews(cache = true)
     }
 
     private fun onScreenReLoad() {
-        doLoadNews()
+        doLoadNews(cache = false)
     }
 
     private fun onElementClick(
@@ -70,10 +70,10 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
         selectedCountry = Country.all().find {
             it.name == countryName
         } ?: throw IllegalArgumentException("Invalid country name $countryName")
-        doLoadNews()
+        doLoadNews(false)
     }
 
-    private fun doLoadNews() {
+    private fun doLoadNews(cache: Boolean) {
         currentViewState = NewsListViewState.Loading
 
         loadNews(
@@ -83,7 +83,8 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
             },
             { error ->
                 currentViewState = NewsListViewState.Error(error.message!!)
-            }
+            },
+            cache
         )
     }
 
@@ -92,11 +93,12 @@ class NewsListViewModel (private var getNewsUseCase: GetNewsUseCase,
      */
     private fun loadNews(
         successFunction: (List<News>) -> Unit,
-        errorFunction: (Throwable) -> Unit
+        errorFunction: (Throwable) -> Unit,
+        cache: Boolean
     ) {
         incrementIdlingResource()
         compositeDisposable.add(
-            getNewsUseCase.get(selectedCountry)
+            getNewsUseCase.get(selectedCountry, cache)
                 .compose(applySchedulers())
                 .subscribe(
                     {

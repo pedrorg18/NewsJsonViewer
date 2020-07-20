@@ -21,7 +21,7 @@ class NewsRepositoryImplTest {
     fun getLatestNewsNoCache_completes() {
         stubDb(Country.Usa, Single.just(generateMockDomainNewsListUs()))
 
-        repo.getLatestNews(Country.Usa).test().assertComplete()
+        repo.getLatestNews(Country.Usa, cache = true).test().assertComplete()
     }
 
     @Test
@@ -30,7 +30,7 @@ class NewsRepositoryImplTest {
         stubDb(Country.Usa, Single.just(emptyList()))
         stubRemote(Country.Usa, Single.just(result))
 
-        repo.getLatestNews(Country.Usa).test().assertResult(result)
+        repo.getLatestNews(Country.Usa, cache = true).test().assertResult(result)
     }
 
     @Test
@@ -39,7 +39,7 @@ class NewsRepositoryImplTest {
         stubDb(Country.Usa, Single.just(emptyList()))
         stubRemote(Country.Usa, Single.just(result))
 
-        repo.getLatestNews(Country.Usa).test()
+        repo.getLatestNews(Country.Usa, cache = true).test()
         verify(mockDataBaseDs, times(1)).saveNewsToCache(Country.Usa, result)
     }
 
@@ -49,7 +49,7 @@ class NewsRepositoryImplTest {
         stubDb(Country.Usa, Single.error(RuntimeException(randomString())))
         stubRemote(Country.Usa, Single.just(result))
 
-        repo.getLatestNews(Country.Usa).test().assertResult(result)
+        repo.getLatestNews(Country.Usa, cache = true).test().assertResult(result)
     }
 
     @Test
@@ -58,7 +58,7 @@ class NewsRepositoryImplTest {
         stubDb(Country.Usa, Single.just(result))
         stubRemote(Country.Usa, Single.just(emptyList()))
 
-        repo.getLatestNews(Country.Usa).test().assertResult(result)
+        repo.getLatestNews(Country.Usa, cache = true).test().assertResult(result)
     }
 
     /**
@@ -72,7 +72,7 @@ class NewsRepositoryImplTest {
         stubDb(Country.France, Single.just(emptyList()))
         stubRemote(Country.France, Single.just(franceResult))
 
-        repo.getLatestNews(Country.France).test().assertResult(franceResult)
+        repo.getLatestNews(Country.France, cache = true).test().assertResult(franceResult)
     }
 
     /**
@@ -86,7 +86,7 @@ class NewsRepositoryImplTest {
         stubDb(Country.France, Single.just(emptyList()))
         stubRemote(Country.France, Single.just(franceResult))
 
-        repo.getLatestNews(Country.France).test()
+        repo.getLatestNews(Country.France, cache = true).test()
 
         verify(mockRemoteDs, times(1)).getLatestNews(Country.France)
     }
@@ -97,9 +97,24 @@ class NewsRepositoryImplTest {
         stubDb(Country.Usa, Single.just(result))
         stubRemote(Country.Usa, Single.just(emptyList()))
 
-        repo.getLatestNews(Country.Usa).test()
+        repo.getLatestNews(Country.Usa, cache = true).test()
 
         verifyZeroInteractions(mockRemoteDs)
+    }
+
+    @Test
+    fun getLatestNewsWithCacheButFlagFalse_callsRemote() {
+        val result = generateMockDomainNewsListUs()
+        stubDb(Country.Usa, Single.just(result))
+        stubRemote(Country.Usa, Single.just(result))
+
+        repo.getLatestNews(Country.Usa, cache = false).test().assertResult(result)
+
+        // cache should not be called
+        verify(mockDataBaseDs, times(0)).getCachedNews(any(), any())
+        verify(mockRemoteDs, times(1)).getLatestNews(Country.Usa)
+
+
     }
 
     private fun stubRemote(country: Country, result: Single<List<News>>) {

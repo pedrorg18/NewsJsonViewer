@@ -15,20 +15,27 @@ class NewsRepositoryImpl @Inject constructor(
 ) : NewsRepository {
 
     // try to get news from local cache. If there aren't or they're expired, call remote API
-    override fun getLatestNews(country: Country) =
-        newsDbDataSource.getCachedNews(country, CACHED_NEWS_EXPIRATION_TIME)
-            .flatMap { cachedNews ->
-                if(cachedNews.isNotEmpty())
-                    Single.just(cachedNews)
-                else
-                    // if no cache, get news from remote, if success store them in cache
-                    getFromRemoteAndSaveCache(country)
+    override fun getLatestNews(
+        country: Country,
+        cache: Boolean
+    ) =
+        if(cache)
+            newsDbDataSource.getCachedNews(country, CACHED_NEWS_EXPIRATION_TIME)
+                .flatMap { cachedNews ->
+                    if(cachedNews.isNotEmpty())
+                        Single.just(cachedNews)
+                    else
+                        // if no cache, get news from remote, if success store them in cache
+                        getFromRemoteAndSaveCache(country)
 
-            }
-            // if error retrieving cache, get from backend and don't tell user
-            .onErrorResumeNext {
-                getFromRemoteAndSaveCache(country)
-            }
+                }
+                // if error retrieving cache, get from backend and don't tell user
+                .onErrorResumeNext {
+                    getFromRemoteAndSaveCache(country)
+                }
+        else
+            // if flag cache false -> go directly to remote instead of checking database
+            getFromRemoteAndSaveCache(country)
 
     private fun getFromRemoteAndSaveCache(country: Country) =
         newsRemoteDataSource.getLatestNews(country)
