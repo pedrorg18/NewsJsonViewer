@@ -35,5 +35,6 @@ class NewsRepositoryImpl @Inject constructor(
         newsRemoteDataSource.getLatestNews(country)
             .doAfterSuccess {
                 newsDbDataSource.saveNewsToCache(country, it)
+                    .subscribe()
             }
 }
