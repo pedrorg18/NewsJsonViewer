@@ -13,6 +13,7 @@ import javax.inject.Singleton
 class MockDatabaseModule {
 
     @Provides
+    @Singleton
     fun providesDatabase(app: NewsMockApplication) = Room.inMemoryDatabaseBuilder(
         app,
         NewsDatabase::class.java

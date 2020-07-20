@@ -18,7 +18,10 @@ fun recyclerViewSizeMatcher(matcherSize: Int): Matcher<View> {
         }
 
         override fun matchesSafely(recyclerView: RecyclerView): Boolean {
-            return matcherSize == recyclerView.adapter!!.itemCount
+            (matcherSize == recyclerView.adapter!!.itemCount).let {
+                if (!it) System.err.println("Expected items: $matcherSize but got ${recyclerView.adapter!!.itemCount}")
+                return it
+            }
         }
     }
 }

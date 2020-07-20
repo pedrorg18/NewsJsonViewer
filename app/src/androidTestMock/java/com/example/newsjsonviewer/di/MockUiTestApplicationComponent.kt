@@ -1,6 +1,7 @@
 package com.example.newsjsonviewer.di
 
 import com.example.newsjsonviewer.di.module.RepositoryModule
+import com.example.newsjsonviewer.features.newslist.NewsListActivityCacheTest
 import com.example.newsjsonviewer.features.newslist.NewsListActivityTest
 import com.example.newsjsonviewer.mock.module.MockApplicationModule
 import com.example.newsjsonviewer.mock.module.MockDatabaseModule
@@ -22,4 +23,5 @@ import javax.inject.Singleton
 )
 interface MockUiTestApplicationComponent : IAppComponent {
     fun inject(newsListActivityTest: NewsListActivityTest)
+    fun inject(newsListActivityCacheTest: NewsListActivityCacheTest)
 }

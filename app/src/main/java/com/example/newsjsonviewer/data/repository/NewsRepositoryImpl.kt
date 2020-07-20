@@ -7,8 +7,7 @@ import com.example.newsjsonviewer.domain.repository.NewsRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
-// TODO replace by a more production adequate value
-const val CACHED_NEWS_EXPIRATION_TIME = (20 * 1000).toLong()
+const val CACHED_NEWS_EXPIRATION_TIME = (120 * 1000).toLong()
 
 class NewsRepositoryImpl @Inject constructor(
     private val newsRemoteDataSource: NewsRemoteDataSource,
